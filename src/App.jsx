@@ -99,6 +99,8 @@ function App() {
     const pf = parseNum(updated.pf);
     const wwf = parseNum(updated.wwf);
     const totalDeductions = pf + wwf;
+
+    // Derived: Total Deductions
     updated.totalDeductions = formatNum(totalDeductions);
 
     // If Net Salary was changed, drive the calculations
@@ -109,9 +111,6 @@ function App() {
       const basic = net * 0.60;
       updated.basic = formatNum(basic);
       
-      const remainingForAllowances = targetEarnings - basic;
-      
-      // All other allowances (except Conveyance) are fixed at their current values
       const fixedAllowancesSum = 
         parseNum(updated.hra) + 
         parseNum(updated.addlHra) + 
@@ -121,17 +120,22 @@ function App() {
         parseNum(updated.superannuation) + 
         parseNum(updated.lunch);
       
-      // Conveyance is the buffer to match the total
-      updated.conveyance = formatNum(remainingForAllowances - fixedAllowancesSum);
+      // Conveyance is the buffer
+      updated.conveyance = formatNum(targetEarnings - basic - fixedAllowancesSum);
       updated.totalEarnings = formatNum(targetEarnings);
-      updated.netSalary = formatNum(net); // Ensure input is formatted
+      // Do NOT format updated.netSalary itself to allow editing
     } else {
       // If an individual earning/deduction field was changed, update Total/Net
       const earningsKeys = ['basic', 'conveyance', 'lta', 'hra', 'addlHra', 'medical', 'transport', 'superannuation', 'lunch'];
       const totalEarnings = earningsKeys.reduce((acc, k) => acc + parseNum(updated[k]), 0);
+      
       updated.totalEarnings = formatNum(totalEarnings);
-      updated.totalDeductions = formatNum(parseNum(updated.pf) + parseNum(updated.wwf));
-      updated.netSalary = formatNum(totalEarnings - parseNum(updated.totalDeductions));
+      updated.totalDeductions = formatNum(totalDeductions);
+      
+      // Update Net Salary if someone changed an earning/deduction
+      if (fieldChanged !== 'netSalary') {
+        updated.netSalary = formatNum(totalEarnings - totalDeductions);
+      }
     }
     return updated;
   };
