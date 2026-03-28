@@ -4,31 +4,31 @@ import './App.css';
 
 const COMPANY_DATA = {
   'MODULUSTEC PVT LTD': {
-    'CHENNAI': '4th floor, North block, TIDEL Park, 600113, Rajiv Gandhi Salai\nChennai, Tamil Nadu 600113\nPhone: +91 98564 33567',
-    'KOCHI': '211, 4th floor, SCK 01, Smartcity Rd\nKochi, Kakkanad, Kerala 682042\nPhone: +91 98423 59648',
-    'BENGALURU': 'Level 9, Canberra, UB City, 24, Vittal Mallya Rd, KG Halli\nAshok Nagar, Bengaluru, Karnataka 560001\nPhone: +91 80193 45098',
-    'BANGALORE': 'Level 9, Canberra, UB City, 24, Vittal Mallya Rd, KG Halli\nAshok Nagar, Bengaluru, Karnataka 560001\nPhone: +91 80193 45098',
-    'THIRUVANANTHAPURAM': 'Technopark Phase-3, Kazhakkuttom, PO\nThiruvananthapuram, Kerala 695583\nPhone: +91 97123 74672',
-    'TRIVANDRUM': 'Technopark Phase-3, Kazhakkuttom, PO\nThiruvananthapuram, Kerala 695583\nPhone: +91 97123 74672',
-    'TVM': 'Technopark Phase-3, Kazhakkuttom, PO\nThiruvananthapuram, Kerala 695583\nPhone: +91 97123 74672',
+    'CHENNAI': '4th floor, North block, TIDEL Park, 600113, Rajiv Gandhi Salai, Chennai, Tamil Nadu 600113',
+    'KOCHI': '211, 4th floor, SCK 01, Smartcity Rd, Kochi, Kakkanad, Kerala 682042',
+    'BENGALURU': 'Level 9, Canberra, UB City, 24, Vittal Mallya Rd, KG Halli, Ashok Nagar, Bengaluru, Karnataka 560001',
+    'BANGALORE': 'Level 9, Canberra, UB City, 24, Vittal Mallya Rd, KG Halli, Ashok Nagar, Bengaluru, Karnataka 560001',
+    'THIRUVANANTHAPURAM': 'Technopark Phase-3, Kazhakkuttom, PO, Thiruvananthapuram, Kerala 695583',
+    'TRIVANDRUM': 'Technopark Phase-3, Kazhakkuttom, PO, Thiruvananthapuram, Kerala 695583',
+    'TVM': 'Technopark Phase-3, Kazhakkuttom, PO, Thiruvananthapuram, Kerala 695583',
   },
   'ELITE MANAGEMENT SERVICES PVT LTD': {
-    'CHENNAI': '12/4, Wallace Garden, Nungambakkam\nChennai, Tamil Nadu 600006\nPhone: +91 98923 44524',
-    'BENGALURU': '88, MG Road, Ashok Nagar\nBengaluru, Karnataka 560001\nPhone: +91 97923 44353',
-    'BANGALORE': '88, MG Road, Ashok Nagar\nBengaluru, Karnataka 560001\nPhone: +91 97923 44353',
-    'KOCHI': '5B, Marine Drive, Ernakulam, kochi\nKerala 682031\nPhone: +91 97824 28983',
-    'THIRUVANANTHAPURAM': 'TC 15/12, Kowdiar Palace Road\nTrivandrum, Kerala 695003\nPhone: +91 98734 46466',
-    'TRIVANDRUM': 'TC 15/12, Kowdiar Palace Road\nTrivandrum, Kerala 695003\nPhone: +91 98734 46466',
-    'TVM': 'TC 15/12, Kowdiar Palace Road\nTrivandrum, Kerala 695003\nPhone: +91 98734 46466',
+    'CHENNAI': '12/4, Wallace Garden, Nungambakkam, Chennai, Tamil Nadu 600006',
+    'BENGALURU': '88, MG Road, Ashok Nagar, Bengaluru, Karnataka 560001',
+    'BANGALORE': '88, MG Road, Ashok Nagar, Bengaluru, Karnataka 560001',
+    'KOCHI': '5B, Marine Drive, Ernakulam, kochi, Kerala 682031',
+    'THIRUVANANTHAPURAM': 'TC 15/12, Kowdiar Palace Road, Trivandrum, Kerala 695003',
+    'TRIVANDRUM': 'TC 15/12, Kowdiar Palace Road, Trivandrum, Kerala 695003',
+    'TVM': 'TC 15/12, Kowdiar Palace Road, Trivandrum, Kerala 695003',
   },
   'GENESIS GREEN TECH PVT LTD': {
-    'BENGALURU': 'Plot 42, Electronics City Phase 1\nBangalore, Karnataka 560100\nPhone: +91 98734 33535',
-    'BANGALORE': 'Plot 42, Electronics City Phase 1\nBangalore, Karnataka 560100\nPhone: +91 98734 33535',
-    'CHENNAI': 'TIDEL Park, Rajiv Gandhi Salai\nTaramani, Chennai 600113\nPhone: +91 99834 39358',
-    'KOCHI': '2nd Floor, Infopark Phase II, Kakkanad\nKochi, Kerala 682030\nPhone: +91 98034 42344',
-    'THIRUVANANTHAPURAM': 'HV5M+54X, Technopark Campus, Kazhakkoottam\nTrivandrum 695581\nPhone: +91 98824 34545',
-    'TRIVANDRUM': 'HV5M+54X, Technopark Campus, Kazhakkoottam\nTrivandrum 695581\nPhone: +91 98824 34545',
-    'TVM': 'HV5M+54X, Technopark Campus, Kazhakkoottam\nTrivandrum 695581\nPhone: +91 98824 34545',
+    'BENGALURU': 'Plot 42, Electronics City Phase 1, Bangalore, Karnataka 560100',
+    'BANGALORE': 'Plot 42, Electronics City Phase 1, Bangalore, Karnataka 560100',
+    'CHENNAI': 'TIDEL Park, Rajiv Gandhi Salai, Taramani, Chennai 600113',
+    'KOCHI': '2nd Floor, Infopark Phase II, Kakkanad, Kochi, Kerala 682030',
+    'THIRUVANANTHAPURAM': 'HV5M+54X, Technopark Campus, Kazhakkoottam, Trivandrum 695581',
+    'TRIVANDRUM': 'HV5M+54X, Technopark Campus, Kazhakkoottam, Trivandrum 695581',
+    'TVM': 'HV5M+54X, Technopark Campus, Kazhakkoottam, Trivandrum 695581',
   }
 };
 
@@ -41,7 +41,7 @@ function App() {
     designation: 'Software Developer',
     location: 'CHENNAI',
     bankAccount: '50100841532282',
-    address: COMPANY_DATA['MODULUSTEC PVT LTD']['CHENNAI'],
+    address: '4th floor, North block, TIDEL Park, 600113, Rajiv Gandhi Salai, Chennai, Tamil Nadu 600113',
     companyLogo: '',
   });
 
@@ -51,8 +51,8 @@ function App() {
       monthYear: 'FEBRUARY 2026',
       calDays: '28',
       paidDays: '28',
-      basic: '78,500.00',
-      conveyance: '3,792.00',
+      basic: '57,300.00',
+      conveyance: '26,992.00',
       lta: '500.00',
       hra: '2,500.00',
       addlHra: '3,830.00',
@@ -105,8 +105,8 @@ function App() {
     if (fieldChanged === 'netSalary') {
       const targetEarnings = net + totalDeductions;
       
-      // Basic is 55% of Net
-      const basic = net * 0.55;
+      // Basic is 60% of Net
+      const basic = net * 0.60;
       updated.basic = formatNum(basic);
       
       const remainingForAllowances = targetEarnings - basic;
@@ -124,6 +124,7 @@ function App() {
       // Conveyance is the buffer to match the total
       updated.conveyance = formatNum(remainingForAllowances - fixedAllowancesSum);
       updated.totalEarnings = formatNum(targetEarnings);
+      updated.netSalary = formatNum(net); // Ensure input is formatted
     } else {
       // If an individual earning/deduction field was changed, update Total/Net
       const earningsKeys = ['basic', 'conveyance', 'lta', 'hra', 'addlHra', 'medical', 'transport', 'superannuation', 'lunch'];
