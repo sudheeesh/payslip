@@ -1,0 +1,225 @@
+.payslip-container {
+  font-family: Arial, Helvetica, sans-serif;
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 30px 40px;
+  background-color: white;
+  color: #0d325a;
+  font-size: 11px;
+  letter-spacing: -0.8px;
+}
+
+.payslip-container * {
+  box-sizing: border-box;
+}
+
+.payslip-border-wrapper {
+  border: 1px solid #ccc;
+}
+
+.payslip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.payslip-logo-area {
+  display: flex;
+  align-items: center;
+  background-color: #d8dbdf;
+  /* Matched lighter grey from model */
+  padding: 10px 15px;
+  width: 40%;
+  min-height: 65px;
+}
+
+.uploaded-logo {
+  width: 100%;
+  max-width: 240px;
+  max-height: 48px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.logo-placeholder {
+  display: flex;
+  align-items: center;
+}
+
+.logo-text {
+  font-size: 24px;
+  font-weight: 900;
+  color: #0d325a;
+  margin-left: 10px;
+}
+
+.payslip-company-name {
+  font-size: 16px;
+  font-weight: 400;
+  /* Extra bold thick look */
+  color: #0d325a;
+  margin-right: 15px;
+  margin-bottom: 5px;
+}
+
+.payslip-title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 13px;
+  padding: 8px;
+  margin-bottom: 0;
+  border-bottom: 1px solid #ccc;
+  color: #0d325a;
+}
+
+.payslip-details-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0;
+  table-layout: fixed;
+}
+
+.payslip-details-table td {
+  border: 1px solid #ccc;
+  padding: 8px 6px;
+  font-weight: bold;
+  color: #0d325a;
+  font-size: 12px;
+}
+
+.payslip-details-table td:first-child {
+  border-left: none;
+  width: 55%;
+}
+
+.payslip-details-table td:last-child {
+  border-right: none;
+  width: 45%;
+}
+
+.payslip-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0px;
+  font-size: 10px;
+  table-layout: fixed;
+}
+
+.payslip-table th,
+.payslip-table td {
+  padding: 4px;
+  border: 1px solid #e5e5e5;
+  color: #0d325a;
+  font-weight: normal; /* Normal for Basic to WWF */
+}
+
+.payslip-table th:nth-child(1),
+.payslip-table td:nth-child(1) {
+  border-left: none;
+  width: 55%;
+}
+
+.payslip-table th:nth-child(2),
+.payslip-table td:nth-child(2) {
+  width: 15%;
+}
+
+.payslip-table th:nth-child(3),
+.payslip-table td:nth-child(3) {
+  width: 15%;
+}
+
+.payslip-table th:nth-child(4),
+.payslip-table td:nth-child(4) {
+  width: 15%;
+}
+
+.payslip-table th:last-child,
+.payslip-table td:last-child {
+  border-right: none;
+}
+
+.table-header-row th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  padding: 6px 4px;
+}
+
+.payslip-table td.section-title {
+  font-weight: 900; /* Extra thick as requested */
+  color: #0d325a;
+  background-color: #fff;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.payslip-table td.bold-blue {
+  font-weight: 900; /* Extra thick for Total Earnings/Deductions */
+  color: #0d325a;
+  background-color: #f2f2f2;
+}
+
+.payslip-summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 10px;
+  border: 1px solid #e5e5e5;
+  table-layout: fixed;
+}
+
+.payslip-summary-table th {
+  padding: 5px;
+  font-weight: 900;
+  border: 1px solid #e5e5e5;
+  color: #0d325a;
+  background-color: #f2f2f2;
+}
+
+.payslip-summary-table td {
+  padding: 5px;
+  border: 1px solid #e5e5e5;
+  font-weight: bold;
+  color: #0d325a;
+}
+
+
+.payslip-footer {
+  margin-top: 10px;
+  line-height: 1.5;
+  font-size: 11px;
+}
+
+.footer-line {
+  color: #0d325a;
+  letter-spacing: 2px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.footer-amount {
+  font-weight: bold;
+  color: #0d325a;
+}
+
+.footer-address {
+  color: #0d325a;
+  font-weight: bold;
+  white-space: pre-wrap;
+}
+
+.footer-disclaimer {
+  color: #0d325a;
+  font-weight: bold;
+}
