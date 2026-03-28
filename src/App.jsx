@@ -104,59 +104,33 @@ function App() {
     // If Net Salary was changed, drive the calculations
     if (fieldChanged === 'netSalary') {
       const targetEarnings = net + totalDeductions;
-      const slipIndex = allSlips.findIndex(s => s.id === currentSlip.id);
-      const prevSlip = slipIndex > 0 ? allSlips[slipIndex - 1] : null;
-
-      if (!prevSlip) {
-        // First month: 55/45 split
-        const basic = net * 0.55;
-        updated.basic = formatNum(basic);
-        
-        // Split others
-        const remaining = targetEarnings - basic;
-        // Keep some fixed based on defaults
-        updated.lta = "500.00";
-        updated.medical = "1,250.00";
-        updated.transport = "1,600.00";
-        updated.superannuation = "1,120.00";
-        updated.lunch = "1,300.00";
-        
-        // HRA 20% of net, Addl HRA 5% of net
-        const hra = net * 0.20;
-        const addlHra = net * 0.05;
-        updated.hra = formatNum(hra);
-        updated.addlHra = formatNum(addlHra);
-
-        // Conveyance is the buffer
-        const used = parseNum(updated.lta) + parseNum(updated.medical) + parseNum(updated.transport) + 
-                    parseNum(updated.superannuation) + parseNum(updated.lunch) + hra + addlHra;
-        updated.conveyance = formatNum(remaining - used);
-      } else {
-        // Subsequent months: Keep basic & others same, adjust conveyance
-        updated.basic = prevSlip.basic;
-        updated.hra = prevSlip.hra;
-        updated.addlHra = prevSlip.addlHra;
-        updated.lta = prevSlip.lta;
-        updated.medical = prevSlip.medical;
-        updated.transport = prevSlip.transport;
-        updated.superannuation = prevSlip.superannuation;
-        updated.lunch = prevSlip.lunch;
-        
-        // Check if values were already set in the current month or use 0
-        const usedExceptConveyance = parseNum(updated.basic) + parseNum(updated.hra) + parseNum(updated.addlHra) + 
-                                     parseNum(updated.lta) + parseNum(updated.medical) + parseNum(updated.transport) + 
-                                     parseNum(updated.superannuation) + parseNum(updated.lunch);
-        
-        updated.conveyance = formatNum(targetEarnings - usedExceptConveyance);
-      }
-      updated.totalEarnings = formatNum(net + totalDeductions);
+      
+      // Basic is 55% of Net
+      const basic = net * 0.55;
+      updated.basic = formatNum(basic);
+      
+      const remainingForAllowances = targetEarnings - basic;
+      
+      // All other allowances (except Conveyance) are fixed at their current values
+      const fixedAllowancesSum = 
+        parseNum(updated.hra) + 
+        parseNum(updated.addlHra) + 
+        parseNum(updated.lta) + 
+        parseNum(updated.medical) + 
+        parseNum(updated.transport) + 
+        parseNum(updated.superannuation) + 
+        parseNum(updated.lunch);
+      
+      // Conveyance is the buffer to match the total
+      updated.conveyance = formatNum(remainingForAllowances - fixedAllowancesSum);
+      updated.totalEarnings = formatNum(targetEarnings);
     } else {
       // If an individual earning/deduction field was changed, update Total/Net
       const earningsKeys = ['basic', 'conveyance', 'lta', 'hra', 'addlHra', 'medical', 'transport', 'superannuation', 'lunch'];
-      const totalExclDeductions = earningsKeys.reduce((acc, k) => acc + parseNum(updated[k]), 0);
-      updated.totalEarnings = formatNum(totalExclDeductions);
+      const totalEarnings = earningsKeys.reduce((acc, k) => acc + parseNum(updated[k]), 0);
+      updated.totalEarnings = formatNum(totalEarnings);
       updated.totalDeductions = formatNum(parseNum(updated.pf) + parseNum(updated.wwf));
-      updated.netSalary = formatNum(totalExclDeductions - parseNum(updated.totalDeductions));
+      updated.netSalary = formatNum(totalEarnings - parseNum(updated.totalDeductions));
     }
     return updated;
   };
