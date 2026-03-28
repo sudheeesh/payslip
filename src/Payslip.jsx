@@ -2,6 +2,16 @@ import React from 'react';
 import './Payslip.css';
 
 const Payslip = ({ data }) => {
+  const formatDisplay = (val) => {
+    if (val === undefined || val === null || val === '') return '0.00';
+    // Remove existing commas and parse
+    const num = parseFloat(String(val).replace(/,/g, '')) || 0;
+    return num.toLocaleString('en-IN', { 
+      minimumFractionDigits: 2, 
+      maximumFractionDigits: 2 
+    });
+  };
+
   return (
     <div className="payslip-container">
       <div className="payslip-border-wrapper">
@@ -62,63 +72,63 @@ const Payslip = ({ data }) => {
           </tr>
           <tr>
             <td>BASIC</td>
-            <td className="text-right">{data?.basic}</td>
+            <td className="text-right">{formatDisplay(data?.basic)}</td>
             <td className="text-right"></td>
-            <td className="text-right">{data?.basic}</td>
+            <td className="text-right">{formatDisplay(data?.basic)}</td>
           </tr>
           <tr>
             <td>CONVEYANCE ALLOWANCE</td>
-            <td className="text-right">{data?.conveyance}</td>
+            <td className="text-right">{formatDisplay(data?.conveyance)}</td>
             <td className="text-right"></td>
-            <td className="text-right">{data?.conveyance}</td>
+            <td className="text-right">{formatDisplay(data?.conveyance)}</td>
           </tr>
           <tr>
             <td>LEAVE TRAVEL ALLOWANCE MONTHLY</td>
-            <td className="text-right">{data?.lta}</td>
+            <td className="text-right">{formatDisplay(data?.lta)}</td>
             <td className="text-right"></td>
-            <td className="text-right">{data?.lta}</td>
+            <td className="text-right">{formatDisplay(data?.lta)}</td>
           </tr>
           <tr>
             <td>HOUSE RENT ALLOWANCE</td>
-            <td className="text-right">{data?.hra}</td>
+            <td className="text-right">{formatDisplay(data?.hra)}</td>
             <td className="text-right"></td>
-            <td className="text-right">{data?.hra}</td>
+            <td className="text-right">{formatDisplay(data?.hra)}</td>
           </tr>
           <tr>
             <td>ADDITIONAL HRA</td>
-            <td className="text-right">{data?.addlHra}</td>
+            <td className="text-right">{formatDisplay(data?.addlHra)}</td>
             <td className="text-right"></td>
-            <td className="text-right">{data?.addlHra}</td>
+            <td className="text-right">{formatDisplay(data?.addlHra)}</td>
           </tr>
           <tr>
             <td>MEDICAL ALLOWANCE</td>
-            <td className="text-right">{data?.medical}</td>
+            <td className="text-right">{formatDisplay(data?.medical)}</td>
             <td className="text-right"></td>
-            <td className="text-right">{data?.medical}</td>
+            <td className="text-right">{formatDisplay(data?.medical)}</td>
           </tr>
           <tr>
             <td>TRANSPORT ALLOWANCE</td>
-            <td className="text-right">{data?.transport}</td>
+            <td className="text-right">{formatDisplay(data?.transport)}</td>
             <td className="text-right"></td>
-            <td className="text-right">{data?.transport}</td>
+            <td className="text-right">{formatDisplay(data?.transport)}</td>
           </tr>
           <tr>
             <td>SUPERANNUATION ALLOWANCE</td>
-            <td className="text-right">{data?.superannuation}</td>
+            <td className="text-right">{formatDisplay(data?.superannuation)}</td>
             <td className="text-right"></td>
-            <td className="text-right">{data?.superannuation}</td>
+            <td className="text-right">{formatDisplay(data?.superannuation)}</td>
           </tr>
           <tr>
             <td>LUNCH ALLOWANCE</td>
-            <td className="text-right">{data?.lunch}</td>
+            <td className="text-right">{formatDisplay(data?.lunch)}</td>
             <td className="text-right"></td>
-            <td className="text-right">{data?.lunch}</td>
+            <td className="text-right">{formatDisplay(data?.lunch)}</td>
           </tr>
           <tr className="total-row">
             <td className="bold-blue">TOTAL EARNINGS</td>
-            <td className="text-right bold-blue">{data?.totalEarnings}</td>
-            <td className="text-right bold-blue">0.00</td>
-            <td className="text-right bold-blue">{data?.totalEarnings}</td>
+            <td className="text-right bold-blue">{formatDisplay(data?.totalEarnings)}</td>
+            <td className="text-right bold-blue">{formatDisplay(0)}</td>
+            <td className="text-right bold-blue">{formatDisplay(data?.totalEarnings)}</td>
           </tr>
 
           <tr>
@@ -126,21 +136,21 @@ const Payslip = ({ data }) => {
           </tr>
           <tr>
             <td>PROVIDENT FUND</td>
-            <td className="text-right">{data?.pf}</td>
+            <td className="text-right">{formatDisplay(data?.pf)}</td>
             <td className="text-right"></td>
-            <td className="text-right">{data?.pf}</td>
+            <td className="text-right">{formatDisplay(data?.pf)}</td>
           </tr>
           <tr>
             <td>WWF</td>
-            <td className="text-right">{data?.wwf}</td>
+            <td className="text-right">{formatDisplay(data?.wwf)}</td>
             <td className="text-right"></td>
-            <td className="text-right">{data?.wwf}</td>
+            <td className="text-right">{formatDisplay(data?.wwf)}</td>
           </tr>
           <tr className="total-row">
             <td className="bold-blue">TOTAL DEDUCTIONS</td>
-            <td className="text-right bold-blue">{data?.totalDeductions}</td>
-            <td className="text-right bold-blue">0.00</td>
-            <td className="text-right bold-blue">{data?.totalDeductions}</td>
+            <td className="text-right bold-blue">{formatDisplay(data?.totalDeductions)}</td>
+            <td className="text-right bold-blue">{formatDisplay(0)}</td>
+            <td className="text-right bold-blue">{formatDisplay(data?.totalDeductions)}</td>
           </tr>
         </tbody>
       </table>
@@ -157,18 +167,18 @@ const Payslip = ({ data }) => {
         </thead>
         <tbody>
           <tr>
-            <td className="text-right">{data?.totalEarnings}</td>
-            <td className="text-right">{data?.totalDeductions}</td>
-            <td className="text-right">0.00</td>
-            <td className="text-right">{data?.totalDeductions}</td>
-            <td className="text-right">{data?.netSalary}</td>
+            <td className="text-right">{formatDisplay(data?.totalEarnings)}</td>
+            <td className="text-right">{formatDisplay(data?.totalDeductions)}</td>
+            <td className="text-right">{formatDisplay(0)}</td>
+            <td className="text-right">{formatDisplay(data?.totalDeductions)}</td>
+            <td className="text-right">{formatDisplay(data?.netSalary)}</td>
           </tr>
         </tbody>
       </table>
 
       <div className="payslip-footer">
         <div className="footer-line">========================================================</div>
-        <div className="footer-amount">AMOUNT PAID BY TRANSFER TO A/C : {data?.bankAccount || '50100841532282'} - Rs. {data?.netSalary}</div>
+        <div className="footer-amount">AMOUNT PAID BY TRANSFER TO A/C : {data?.bankAccount || '50100841532282'} - Rs. {formatDisplay(data?.netSalary)}</div>
         <div className="footer-address">
           {data?.address || '211, 4th Floor, SCK 01, Smartcity Road, Kochi, Kakkanad, Kerala 682042'}
         </div>
