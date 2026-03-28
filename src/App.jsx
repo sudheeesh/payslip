@@ -2,13 +2,34 @@ import React, { useState } from 'react';
 import Payslip from './Payslip';
 import './App.css';
 
-const LOCATION_ADDRESSES = {
-  'KOCHI': '211, 4th floor, SCK 01, Smartcity Rd\nKochi, Kakkanad, Kerala 682042\nPhone: +91 98423 59648',
-  'BENGALURU': 'Level 9, Canberra, UB City, 24, Vittal Mallya Rd, KG Halli\nAshok Nagar, Bengaluru, Karnataka 560001\nPhone: +91 80193 45098',
-  'CHENNAI': '4th floor, North block, TIDEL Park, 600113, Rajiv Gandhi Salai\nChennai, Tamil Nadu 600113\nPhone: +91 98564 33567',
-  'THIRUVANANTHAPURAM': 'Technopark Phase-3, Kazhakkuttom, PO\nThiruvananthapuram, Kerala 695583\nPhone: +91 97123 74672',
-  'BANGALORE': 'Level 9, Canberra, UB City, 24, Vittal Mallya Rd, KG Halli\nAshok Nagar, Bengaluru, Karnataka 560001\nPhone: +91 80193 45098',
-  'TVM': 'Technopark Phase-3, Kazhakkuttom, PO\nThiruvananthapuram, Kerala 695583\nPhone: +91 97123 74672',
+const COMPANY_DATA = {
+  'MODULUSTEC PVT LTD': {
+    'CHENNAI': '4th floor, North block, TIDEL Park, 600113, Rajiv Gandhi Salai\nChennai, Tamil Nadu 600113\nPhone: +91 98564 33567',
+    'KOCHI': '211, 4th floor, SCK 01, Smartcity Rd\nKochi, Kakkanad, Kerala 682042\nPhone: +91 98423 59648',
+    'BENGALURU': 'Level 9, Canberra, UB City, 24, Vittal Mallya Rd, KG Halli\nAshok Nagar, Bengaluru, Karnataka 560001\nPhone: +91 80193 45098',
+    'BANGALORE': 'Level 9, Canberra, UB City, 24, Vittal Mallya Rd, KG Halli\nAshok Nagar, Bengaluru, Karnataka 560001\nPhone: +91 80193 45098',
+    'THIRUVANANTHAPURAM': 'Technopark Phase-3, Kazhakkuttom, PO\nThiruvananthapuram, Kerala 695583\nPhone: +91 97123 74672',
+    'TRIVANDRUM': 'Technopark Phase-3, Kazhakkuttom, PO\nThiruvananthapuram, Kerala 695583\nPhone: +91 97123 74672',
+    'TVM': 'Technopark Phase-3, Kazhakkuttom, PO\nThiruvananthapuram, Kerala 695583\nPhone: +91 97123 74672',
+  },
+  'ELITE MANAGEMENT SERVICES PVT LTD': {
+    'CHENNAI': '12/4, Wallace Garden, Nungambakkam\nChennai, Tamil Nadu 600006\nPhone: +91 98923 44524',
+    'BENGALURU': '88, MG Road, Ashok Nagar\nBengaluru, Karnataka 560001\nPhone: +91 97923 44353',
+    'BANGALORE': '88, MG Road, Ashok Nagar\nBengaluru, Karnataka 560001\nPhone: +91 97923 44353',
+    'KOCHI': '5B, Marine Drive, Ernakulam, kochi\nKerala 682031\nPhone: +91 97824 28983',
+    'THIRUVANANTHAPURAM': 'TC 15/12, Kowdiar Palace Road\nTrivandrum, Kerala 695003\nPhone: +91 98734 46466',
+    'TRIVANDRUM': 'TC 15/12, Kowdiar Palace Road\nTrivandrum, Kerala 695003\nPhone: +91 98734 46466',
+    'TVM': 'TC 15/12, Kowdiar Palace Road\nTrivandrum, Kerala 695003\nPhone: +91 98734 46466',
+  },
+  'GENESIS GREEN TECH PVT LTD': {
+    'BENGALURU': 'Plot 42, Electronics City Phase 1\nBangalore, Karnataka 560100\nPhone: +91 98734 33535',
+    'BANGALORE': 'Plot 42, Electronics City Phase 1\nBangalore, Karnataka 560100\nPhone: +91 98734 33535',
+    'CHENNAI': 'TIDEL Park, Rajiv Gandhi Salai\nTaramani, Chennai 600113\nPhone: +91 99834 39358',
+    'KOCHI': '2nd Floor, Infopark Phase II, Kakkanad\nKochi, Kerala 682030\nPhone: +91 98034 42344',
+    'THIRUVANANTHAPURAM': 'HV5M+54X, Technopark Campus, Kazhakkoottam\nTrivandrum 695581\nPhone: +91 98824 34545',
+    'TRIVANDRUM': 'HV5M+54X, Technopark Campus, Kazhakkoottam\nTrivandrum 695581\nPhone: +91 98824 34545',
+    'TVM': 'HV5M+54X, Technopark Campus, Kazhakkoottam\nTrivandrum 695581\nPhone: +91 98824 34545',
+  }
 };
 
 function App() {
@@ -20,7 +41,7 @@ function App() {
     designation: 'Software Developer',
     location: 'CHENNAI',
     bankAccount: '50100841532282',
-    address: LOCATION_ADDRESSES['CHENNAI'],
+    address: COMPANY_DATA['MODULUSTEC PVT LTD']['CHENNAI'],
     companyLogo: '',
   });
 
@@ -58,10 +79,11 @@ function App() {
   const handleCommonChange = (key, val) => {
     setCommonDetails((prev) => {
       const updated = { ...prev, [key]: val };
-      if (key === 'location') {
-        const locationKey = val.toUpperCase().trim();
-        if (LOCATION_ADDRESSES[locationKey]) {
-          updated.address = LOCATION_ADDRESSES[locationKey];
+      if (key === 'location' || key === 'companyName') {
+        const companyKey = updated.companyName.toUpperCase().trim();
+        const locationKey = updated.location.toUpperCase().trim();
+        if (COMPANY_DATA[companyKey] && COMPANY_DATA[companyKey][locationKey]) {
+          updated.address = COMPANY_DATA[companyKey][locationKey];
         }
       }
       return updated;
@@ -189,9 +211,15 @@ function App() {
             <label>Company Name</label>
             <input
               type="text"
+              list="company-options"
               value={commonDetails.companyName}
               onChange={(e) => handleCommonChange('companyName', e.target.value)}
             />
+            <datalist id="company-options">
+              {Object.keys(COMPANY_DATA).map((comp) => (
+                <option key={comp} value={comp} />
+              ))}
+            </datalist>
           </div>
           <div className="field-group">
             <label>Company Logo</label>
@@ -220,19 +248,18 @@ function App() {
             if (key === 'location') {
               return (
                 <div key={key} className="field-group">
-                  <label>Location (Auto-fills Address)</label>
-                  <input
-                    type="text"
-                    list="location-options"
+                  <label>Location</label>
+                  <select
                     value={commonDetails[key]}
                     onChange={(e) => handleCommonChange(key, e.target.value)}
-                    placeholder="e.g. KOCHI"
-                  />
-                  <datalist id="location-options">
-                    {Object.keys(LOCATION_ADDRESSES).map((loc) => (
-                      <option key={loc} value={loc} />
-                    ))}
-                  </datalist>
+                    style={{ width: '100%', padding: '8px', border: '1px solid #cbd5e1', borderRadius: '4px', fontFamily: 'Arial' }}
+                  >
+                    <option value="">-- Select City --</option>
+                    <option value="CHENNAI">Chennai</option>
+                    <option value="KOCHI">Kochi</option>
+                    <option value="TRIVANDRUM">Trivandrum</option>
+                    <option value="BANGALORE">Bangalore</option>
+                  </select>
                 </div>
               );
             }
