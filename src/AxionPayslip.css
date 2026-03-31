@@ -1,0 +1,147 @@
+.axion-payslip-page {
+  width: 210mm;
+  min-height: 297mm;
+  padding: 15mm;
+  margin: 0 auto;
+  background: white;
+  font-family: 'Times New Roman', Times, serif;
+  color: #333;
+  box-sizing: border-box;
+}
+
+.axion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.axion-header-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.axion-logo {
+  height: 120px;
+  width: auto;
+  margin-top: -20px;
+}
+
+.axion-company-name {
+  font-size: 24px;
+  font-weight: bold;
+  color: #c41e3a;
+  /* Reddish color like in the logo */
+  text-transform: uppercase;
+}
+
+.axion-header-right {
+  text-align: right;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #000;
+}
+
+.axion-title {
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: underline;
+  margin: 20px 0;
+  color: #000;
+}
+
+.axion-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 25px;
+  font-size: 13px;
+}
+
+.axion-info-row {
+  display: flex;
+  margin-bottom: 6px;
+  align-items: flex-start;
+}
+
+.axion-label {
+  width: 180px;
+  font-weight: 500;
+  color: #000;
+}
+
+.axion-sep {
+  width: 15px;
+  color: #000;
+}
+
+.axion-value {
+  flex: 1;
+  color: #000;
+}
+
+.axion-main-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+  font-size: 12px;
+}
+
+.axion-main-table th,
+.axion-main-table td {
+  border: 1.5px solid #000;
+  padding: 6px 10px;
+  text-align: left;
+}
+
+.axion-main-table th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+  color: #000;
+}
+
+.axion-highlight-row {
+  font-weight: bold;
+  background-color: #f1f1f1;
+}
+
+.axion-highlight-cell {
+  font-weight: bold;
+  background-color: #f1f1f1;
+}
+
+.axion-total-row {
+  font-weight: bold;
+}
+
+.axion-net-cell {
+  background-color: #f1f1f1;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.axion-footer {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 12px;
+  color: #555;
+  border-top: 1px solid #eee;
+  padding-top: 15px;
+}
+
+@media print {
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  .axion-payslip-page {
+    margin: 0;
+    box-shadow: none;
+    padding: 10mm;
+  }
+}

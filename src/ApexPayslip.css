@@ -1,0 +1,200 @@
+.apex-payslip-page {
+  font-family: Verdana, Geneva, sans-serif;
+  padding: 0;
+  /* Let the common wrapper handle the 40px margins */
+  background-color: transparent;
+  color: #000;
+  max-width: 1050px;
+  width: 100%;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.apex-header-top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 75px;
+  /* Reduced gap to give more room to text */
+  margin-bottom: 0.2rem;
+  width: 100%;
+  padding-left: 30px;
+}
+
+.apex-header-logo {
+  height: 120px;
+  object-fit: contain;
+}
+
+.apex-header-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.apex-company-name-title {
+  font-size: 18px;
+  font-weight: 800;
+  margin: 0;
+  color: #000;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.apex-company-address {
+  font-size: 12px;
+  color: #333;
+  margin-top: 4px;
+  line-height: 1.2;
+}
+
+.apex-payslip-subtitle {
+  text-align: left;
+  /* Back to Left */
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  color: #000;
+  margin-bottom: 0.3rem;
+}
+
+.apex-info-grid {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  border: 2.5px solid #000;
+  margin-top: 5px;
+  width: 100%;
+  box-sizing: border-box;
+  /* Ensures borders stay within the 100% width */
+}
+
+.apex-info-col {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0.6rem;
+}
+
+.apex-info-col:first-child {
+  border-right: 2.5px solid #000;
+}
+
+.apex-info-row {
+  display: flex;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: #000;
+  white-space: nowrap;
+}
+
+.apex-info-label {
+  width: 135px;
+  font-weight: 400;
+}
+
+.apex-info-col:last-child .apex-info-label {
+  width: 175px;
+}
+
+.apex-info-sep {
+  width: 10px;
+  text-align: left;
+}
+
+.apex-info-value {
+  flex: 1;
+  font-weight: 400;
+}
+
+.apex-main-table-container {
+  margin-top: 1.5rem;
+  border: 2.5px solid #000;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.apex-table-header-row {
+  display: flex;
+  border-bottom: 2.5px solid #000;
+  background-color: #f9fafb;
+}
+
+.apex-th {
+  padding: 0.15rem 0.4rem;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+}
+
+.apex-col-left {
+  width: 50%;
+  border-right: 2.5px solid #000;
+}
+
+.apex-col-right {
+  width: 50%;
+}
+
+.apex-rows-container {
+  display: flex;
+  min-height: 0;
+}
+
+.apex-row-list {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.apex-table-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.05rem 0.4rem;
+  font-size: 12.5px;
+  line-height: 1.15;
+}
+
+.apex-row-val {
+  font-weight: 500;
+}
+
+.apex-table-total-row {
+  display: flex;
+  border-top: 2.5px solid #000;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.apex-footer-info {
+  border: 2.5px solid #000;
+  border-top: none;
+  padding: 0.15rem 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 12.5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.apex-footer-row {
+  display: flex;
+  align-items: center;
+}
+
+.apex-footer-label {
+  width: 150px;
+  font-weight: 700;
+}
+
+.apex-disclaimer {
+  margin-top: 0.5rem;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.text-right {
+  text-align: right;
+}

@@ -124,8 +124,11 @@
 
 .payslip-page-wrapper {
   background: white;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  padding: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+  padding: 25px 40px 40px 40px; /* Reduced top padding to minimize empty space */
+  margin-bottom: 50px;
+  width: fit-content;
+  box-sizing: border-box;
 }
 
 .print-button {

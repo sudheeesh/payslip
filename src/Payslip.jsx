@@ -16,9 +16,23 @@ const Payslip = ({ data }) => {
     <div className="payslip-container">
       <div className="payslip-border-wrapper">
         <div className="payslip-header">
-        <div className="payslip-logo-area">
+        <div className={`payslip-logo-area ${
+          (data?.companyName?.toUpperCase().includes('PROMANAGE') || 
+           data?.companyName?.toUpperCase().includes('ELITE MANAGEMENT') || 
+           data?.companyName?.toUpperCase().includes('GENESIS') ||
+           data?.companyName?.toUpperCase().includes('PROMOTIX')) ? 'enlarge-area' : ''
+        }`}>
           {data?.companyLogo ? (
-            <img src={data.companyLogo} alt="Company Logo" className="uploaded-logo" />
+            <img 
+              src={data.companyLogo} 
+              alt="Company Logo" 
+              className={`uploaded-logo ${
+                (data?.companyName?.toUpperCase().includes('PROMANAGE') || 
+                 data?.companyName?.toUpperCase().includes('ELITE MANAGEMENT') || 
+                 data?.companyName?.toUpperCase().includes('GENESIS') ||
+                 data?.companyName?.toUpperCase().includes('PROMOTIX')) ? 'enlarged-logo' : ''
+              }`} 
+            />
           ) : (
             <div className="logo-placeholder">
               <svg viewBox="0 0 100 100" width="50" height="50">
@@ -40,15 +54,15 @@ const Payslip = ({ data }) => {
         <tbody>
           <tr>
             <td className="detail-data">{data?.empName}</td>
-            <td className="detail-data">EMP. NO. : {data?.empNo}</td>
+            <td className="detail-data">EMP. NO. : {data?.empCode || data?.empId}</td>
           </tr>
           <tr>
             <td className="detail-data">DATE OF JOINING : {data?.doj}</td>
-            <td className="detail-data">Current Mth Cal Days : {data?.calDays}</td>
+            <td className="detail-data">Current Mth Cal Days : {data?.workedDays || '31.00'}</td>
           </tr>
           <tr>
             <td className="detail-data">DESIGNATION : {data?.designation}</td>
-            <td className="detail-data">Current Mth Paid Days : {data?.paidDays}</td>
+            <td className="detail-data">Current Mth Paid Days : {data?.workedDays || '31.00'}</td>
           </tr>
           <tr>
             <td className="detail-data">LOC : {data?.location}</td>
