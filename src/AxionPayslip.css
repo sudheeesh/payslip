@@ -5,7 +5,7 @@
   margin: 0 auto;
   background: white;
   font-family: 'Times New Roman', Times, serif;
-  color: #333;
+  color: #000;
   box-sizing: border-box;
 }
 
@@ -37,15 +37,22 @@
 }
 
 .axion-header-right {
-  text-align: right;
-  font-size: 13px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: bold;
   line-height: 1.4;
+  color: #000;
+}
+
+.axion-address-block strong {
+  font-size: 12px;
+  font-weight: bold;
   color: #000;
 }
 
 .axion-title {
   text-align: center;
-  font-size: 16px;
+  font-size: 12px;
   font-weight: bold;
   text-decoration: underline;
   margin: 20px 0;
@@ -55,9 +62,11 @@
 .axion-info-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 40px;
+  gap: 0;
   margin-bottom: 25px;
-  font-size: 13px;
+  font-size: 12px;
+  color: #000;
+  font-weight: 500;
 }
 
 .axion-info-row {
@@ -67,13 +76,17 @@
 }
 
 .axion-label {
-  width: 180px;
+  width: 50%;
+  padding-left: 11.5px;
+  box-sizing: border-box;
   font-weight: 500;
   color: #000;
 }
 
 .axion-sep {
-  width: 15px;
+  padding-left: 11.5px;
+  width: auto;
+  margin-right: 5px;
   color: #000;
 }
 
@@ -87,36 +100,65 @@
   border-collapse: collapse;
   margin-bottom: 30px;
   font-size: 12px;
+  table-layout: fixed;
+}
+
+.axion-main-table th:nth-child(1),
+.axion-main-table td:nth-child(1) {
+  width: 25%;
+}
+
+.axion-main-table th:nth-child(2),
+.axion-main-table td:nth-child(2) {
+  width: 25%;
+}
+
+.axion-main-table th:nth-child(3),
+.axion-main-table td:nth-child(3) {
+  width: 25%;
+}
+
+.axion-main-table th:nth-child(4),
+.axion-main-table td:nth-child(4) {
+  width: 25%;
 }
 
 .axion-main-table th,
 .axion-main-table td {
   border: 1.5px solid #000;
-  padding: 6px 10px;
+  padding: 3px 10px;
   text-align: left;
+  font-weight: 500;
 }
 
 .axion-main-table th {
   background-color: #f8f9fa;
   font-weight: bold;
+  font-size: 13.5px;
   color: #000;
 }
 
-.axion-highlight-row {
+.axion-main-table tr.axion-highlight-row td {
   font-weight: bold;
+  font-size: 13.5px;
   background-color: #f1f1f1;
+  color: #000;
 }
 
-.axion-highlight-cell {
+.axion-main-table td.axion-highlight-cell {
   font-weight: bold;
+  font-size: 13.5px;
   background-color: #f1f1f1;
+  color: #000;
 }
 
-.axion-total-row {
+.axion-main-table tr.axion-total-row td {
   font-weight: bold;
+  font-size: 13.5px;
+  color: #000;
 }
 
-.axion-net-cell {
+.axion-main-table td.axion-net-cell {
   background-color: #f1f1f1;
 }
 

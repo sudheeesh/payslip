@@ -123,92 +123,92 @@ const AxionPayslip = ({ data }) => {
           <tr>
             <td>Basic Pay</td>
             <td className="text-right">{formatDisplay(data?.basic)}</td>
-            <td>Provident Fund</td>
-            <td className="text-right">{formatDisplay(data?.providentFund)}</td>
+            <td>Medical Insurance</td>
+            <td className="text-right">0.00</td>
           </tr>
           <tr>
             <td>House Rent Allowance</td>
             <td className="text-right">{formatDisplay(data?.hra)}</td>
-            <td>ESI</td>
-            <td className="text-right">{formatDisplay(data?.esiDeduction)}</td>
+            <td>Provident Fund</td>
+            <td className="text-right">{formatDisplay(data?.providentFund)}</td>
           </tr>
           <tr>
             <td>Traveling Allowance</td>
             <td className="text-right">{formatDisplay(data?.travelingAllowance)}</td>
-            <td>Employee Welfare Fund</td>
-            <td className="text-right">{formatDisplay(data?.employeeWelfareFund)}</td>
+            <td>Income Tax</td>
+            <td className="text-right">0.00</td>
           </tr>
           <tr>
             <td>Professional Allowance</td>
             <td className="text-right">{formatDisplay(data?.professionalAllowance)}</td>
-            <td></td>
-            <td></td>
+            <td>Pickup & Drop Facility</td>
+            <td className="text-right">0.00</td>
           </tr>
           <tr>
             <td>Shift Allowance</td>
             <td className="text-right">{formatDisplay(data?.shiftAllowance)}</td>
-            <td></td>
-            <td></td>
+            <td>ESI</td>
+            <td className="text-right">{formatDisplay(data?.esiDeduction)}</td>
           </tr>
           <tr>
             <td>City Compensatory Allowance</td>
             <td className="text-right">{formatDisplay(data?.cityCompensatory)}</td>
-            <td></td>
-            <td></td>
+            <td>Loss of Pay</td>
+            <td className="text-right">0.00</td>
           </tr>
-          <tr className="axion-highlight-row">
-            <td>Gross Income</td>
-            <td className="text-right">{formatDisplay(data?.grossIncome)}</td>
-            <td></td>
-            <td></td>
+          <tr>
+            <td className="axion-highlight-cell">Gross Income</td>
+            <td className="text-right axion-highlight-cell">{formatDisplay(data?.grossIncome)}</td>
+            <td>Meals Coupon</td>
+            <td className="text-right">0.00</td>
           </tr>
           <tr>
             <td>Holiday Allowance</td>
             <td className="text-right">{formatDisplay(data?.holidayAllowance)}</td>
-            <td></td>
-            <td></td>
+            <td>Professional Tax</td>
+            <td className="text-right">0.00</td>
           </tr>
           <tr>
             <td>Night Food Allowance</td>
             <td className="text-right">{formatDisplay(data?.nightFoodAllowance)}</td>
-            <td></td>
-            <td></td>
+            <td>Employee Welfare Fund</td>
+            <td className="text-right">{formatDisplay(data?.employeeWelfareFund)}</td>
           </tr>
           <tr>
             <td>Refferal</td>
             <td className="text-right">{formatDisplay(data?.referral)}</td>
-            <td></td>
-            <td></td>
+            <td>Notice Pay</td>
+            <td className="text-right">0.00</td>
           </tr>
           <tr>
             <td>Special Variable Pay</td>
             <td className="text-right">{formatDisplay(data?.specialVariablePay)}</td>
-            <td></td>
-            <td></td>
+            <td>Arrear</td>
+            <td className="text-right">0.00</td>
           </tr>
           <tr>
             <td>Loyalty Bonus / Incentive</td>
             <td className="text-right">{formatDisplay(data?.loyaltyBonus)}</td>
-            <td></td>
-            <td></td>
+            <td>Join/Rel LOP</td>
+            <td className="text-right">0.00</td>
           </tr>
           <tr>
             <td>PF Employer Share</td>
             <td className="text-right">{formatDisplay(data?.pfEmployerShare)}</td>
-            <td></td>
-            <td></td>
+            <td>Salary Advance</td>
+            <td className="text-right">0.00</td>
           </tr>
           <tr>
             <td>ESI Employer Share</td>
             <td className="text-right">{formatDisplay(data?.esiEmployerShare)}</td>
-            <td></td>
-            <td></td>
+            <td>Other Deductions</td>
+            <td className="text-right">0.00</td>
           </tr>
           <tr>
             <td>Employer Welfare Fund</td>
             <td className="text-right">{formatDisplay(data?.employerWelfareFund)}</td>
-            <td className="axion-highlight-cell">Total Deductions</td>
-            <td className="text-right axion-highlight-cell">{formatDisplay(data?.totalDeductions)}</td>
+            <td>Total Deductions</td>
+            <td className="text-right">{formatDisplay(data?.totalDeductions)}</td>
           </tr>
           <tr className="axion-total-row">
             <td>Total Income</td>

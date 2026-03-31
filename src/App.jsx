@@ -57,7 +57,10 @@ const COMPANY_DATA = {
   'AXIOM ASSET PARTNERS PVT LTD': {
     format: 'axion',
     logo: 'https://res.cloudinary.com/dpu9ikeqe/image/upload/v1774935592/AXION_LOGO_1_jaefgu.png',
-    address: 'Raheja Tower,No.45,Anna Salai,Teynampet,Chennai,Tamil Nadu - 600018'
+    addresses: {
+      'THIRUVANANTHAPURAM': 'Park Centre,|Technopark Campus|Kazhakkoottam|Trivandrum|Kerala 695581',
+      'CHENNAI': 'Raheja Tower|No.45|Anna Salai|Teynampet|Chennai|Tamil Nadu - 600018'
+    }
   },
   'KINETIC PVT LTD': {
     format: 'apex',
@@ -156,27 +159,27 @@ function App() {
     {
       id: Date.now(),
       monthYear: 'September, 2025',
-      basic: '34049',
-      hra: '15133',
-      travelingAllowance: '7566',
-      professionalAllowance: '11350',
-      shiftAllowance: '3783',
-      cityCompensatory: '3783',
-      grossIncome: '75664',
-      holidayAllowance: '318',
-      nightFoodAllowance: '2000',
+      basic: '41918',
+      hra: '9146',
+      travelingAllowance: '6097',
+      professionalAllowance: '0',
+      shiftAllowance: '9146',
+      cityCompensatory: '6097',
+      grossIncome: '72404',
+      holidayAllowance: '523',
+      nightFoodAllowance: '3288',
       referral: '0',
       specialVariablePay: '0',
       loyaltyBonus: '0',
       pfEmployerShare: '558',
       esiEmployerShare: '359',
       employerWelfareFund: '50',
-      totalIncome: '78949',
+      totalIncome: '77182',
       medicalInsurance: '0',
       providentFund: '1850',
       incomeTax: '0',
       pickupDrop: '0',
-      esiDeduction: '1850',
+      esiDeduction: '83',
       lop: '0',
       mealsCoupon: '0',
       professionalTax: '0',
@@ -186,7 +189,7 @@ function App() {
       joinRelLop: '0',
       salaryAdvance: '0',
       otherDeductions: '0',
-      totalDeductions: '3750',
+      totalDeductions: '1983',
       netSalary: '75199',
       netPayInWords: 'Seventy Five Thousand One Hundred Ninety Nine Only',
       paidDays: '31',
@@ -206,7 +209,7 @@ function App() {
     if (num === 0) return 'Zero';
     const a = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
     const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
-    
+
     const convert = (n) => {
       if (n < 20) return a[n];
       if (n < 100) return b[Math.floor(n / 10)] + (n % 10 !== 0 ? ' ' + a[n % 10] : '');
@@ -215,7 +218,7 @@ function App() {
       if (n < 10000000) return convert(Math.floor(n / 100000)) + ' Lakh' + (n % 100000 !== 0 ? ' ' + convert(n % 100000) : '');
       return convert(Math.floor(n / 10000000)) + ' Crore' + (n % 10000000 !== 0 ? ' ' + convert(n % 10000000) : '');
     };
-    
+
     const parts = String(num).split('.');
     let words = convert(parseInt(parts[0]));
     if (parts.length > 1 && parseInt(parts[1]) > 0) {
@@ -252,14 +255,14 @@ function App() {
 
   const calculateSlip = (currentSlip, fieldChanged, newVal, allSlips) => {
     let updated = { ...currentSlip, [fieldChanged]: newVal };
-    
+
     const companyKey = commonDetails.companyName.toUpperCase().trim();
     const fmt = COMPANY_DATA[companyKey]?.format;
     const name = commonDetails.companyName.toUpperCase();
-    const isApex = fmt === 'apex' || (name.includes('APEX') && !name.includes('AXION') && !name.includes('AXIOM')) || 
-                   name.includes('SWIFTLINE') || name.includes('KINETIC') || 
-                   name.includes('RAYGEN') || name.includes('LUXEGLOW') || 
-                   name.includes('VOGUE') || name.includes('SOLARIS') || name.includes('HERITAGE');
+    const isApex = fmt === 'apex' || (name.includes('APEX') && !name.includes('AXION') && !name.includes('AXIOM')) ||
+      name.includes('SWIFTLINE') || name.includes('KINETIC') ||
+      name.includes('RAYGEN') || name.includes('LUXEGLOW') ||
+      name.includes('VOGUE') || name.includes('SOLARIS') || name.includes('HERITAGE');
     const isAxion = fmt === 'axion' || name.includes('AXION') || name.includes('AXIOM');
 
     // Auto-update inWords if netSalary changes
@@ -273,7 +276,7 @@ function App() {
       const pf = parseNum(updated.pf) || 1850;
       const pt = parseNum(updated.pt) || 200;
       const totalDeductions = pf + pt;
-      
+
       updated.pf = formatNum(pf);
       updated.pt = formatNum(pt);
       updated.totalDeductions = formatNum(totalDeductions);
@@ -299,14 +302,14 @@ function App() {
 
         const otherPool = totalEarnings - basicVal; // Remaining 45%
         // We split the 45% into EVERYTHING including an initial bonus/ot
-        const ratios = { 
-          hra: 0.25, 
-          travel: 0.10, 
-          medical: 0.10, 
-          special: 0.15, 
+        const ratios = {
+          hra: 0.25,
+          travel: 0.10,
+          medical: 0.10,
+          special: 0.15,
           foodAllowance: 0.10,
           performanceBonus: 0.20,
-          otAllowance: 0.10 
+          otAllowance: 0.10
         };
 
         // Distribute and capture ONLY the truly "Fixed" ones for the freezing logic
@@ -317,7 +320,7 @@ function App() {
             fixedSum += val;
           }
         });
-        
+
         // Also set the initial bonus/ot so it's not zero on day 1
         updated.performanceBonus = formatNum(Math.round(otherPool * ratios.performanceBonus));
         updated.otAllowance = formatNum(Math.round(otherPool * ratios.otAllowance));
@@ -344,46 +347,62 @@ function App() {
     } else if (isAxion) {
       // --- AXION CALCULATION (Target Based) ---
       const netValue = parseNum(updated.netSalary || updated.netPay);
-      
-      // Fixed Deductions (defaults based on image)
-      const pfDed = parseNum(updated.providentFund) || 516;
-      const esiDed = parseNum(updated.esiDeduction) || 83;
-      const welfareFund = parseNum(updated.employeeWelfareFund) || 50;
-      
+
+      // Fixed Deductions (allows 0 but handles empty input gracefully)
+      const parseField = (val, defaultVal) => (val === undefined || val === '') ? defaultVal : parseNum(val);
+      const pfDed = parseField(updated.providentFund, 1850);
+      const esiDed = parseField(updated.esiDeduction, 83);
+      const welfareFund = parseField(updated.employeeWelfareFund, 50);
+
       const totalDeductions = pfDed + esiDed + welfareFund;
       updated.totalDeductions = formatNum(totalDeductions);
-      
+
       const totalIncome = netValue + totalDeductions;
       updated.totalIncome = formatNum(totalIncome);
 
-      // Simple relative split for Axion (50% Basic, rest distributed)
-      const basicVal = Math.round(totalIncome * 0.50);
+      // Employer Fixed Shares (to be subtracted before distribution so everything tallies perfectly)
+      const empPf = 558;
+      const empEsi = 359;
+      const empWelfare = 50;
+      updated.pfEmployerShare = formatNum(empPf);
+      updated.esiEmployerShare = formatNum(empEsi);
+      updated.employerWelfareFund = formatNum(empWelfare);
+      
+      const totalEmpShares = empPf + empEsi + empWelfare;
+      const distributablePool = totalIncome - totalEmpShares;
+
+      // 1. Basic (55% of the remaining pool)
+      const basicVal = Math.round(distributablePool * 0.55);
       updated.basic = formatNum(basicVal);
 
-      const remainingIncome = totalIncome - basicVal;
-      const otherKeys = ['hra', 'travelingAllowance', 'shiftAllowance', 'cityCompensatory'];
-      const perKey = Math.round(remainingIncome / (otherKeys.length + 2)); // +2 for variable parts
-
-      otherKeys.forEach(k => {
-        updated[k] = formatNum(perKey);
-      });
+      // 2. Other Allowances (40% of pool distributed to HRA 30%, Shift 30%, Travel 20%, City 20%)
+      const otherPool = Math.round(distributablePool * 0.40);
+      const hraVal = Math.round(otherPool * 0.30);
+      const shiftVal = Math.round(otherPool * 0.30);
+      const travelVal = Math.round(otherPool * 0.20);
+      const cityVal = otherPool - hraVal - shiftVal - travelVal; // Remainder exact 20%
       
-      const grossIncome = basicVal + (perKey * otherKeys.length);
+      updated.hra = formatNum(hraVal);
+      updated.travelingAllowance = formatNum(travelVal);
+      updated.shiftAllowance = formatNum(shiftVal);
+      updated.cityCompensatory = formatNum(cityVal);
+
+      const grossIncome = basicVal + otherPool;
       updated.grossIncome = formatNum(grossIncome);
 
-      // Remaining goes to variables
-      const variablePart = totalIncome - grossIncome;
-      updated.nightFoodAllowance = formatNum(Math.round(variablePart * 0.4));
-      updated.holidayAllowance = formatNum(variablePart - parseNum(updated.nightFoodAllowance));
+      // 3. Variables / 5% Pool (Holiday & Night Food)
+      // Percentage mapped exactly from reference values: 2000 (Night Food) vs 318 (Holiday) of 2318 total pool.
+      const variablePool = distributablePool - grossIncome;
+      const nightFood = Math.round(variablePool * (2000 / 2318));
+      
+      updated.nightFoodAllowance = formatNum(nightFood);
+      updated.holidayAllowance = formatNum(variablePool - nightFood);
 
-      // Defaults for others
+      // Defaults for unused components
       updated.professionalAllowance = formatNum(0);
       updated.referral = formatNum(0);
       updated.specialVariablePay = formatNum(0);
       updated.loyaltyBonus = formatNum(0);
-      updated.pfEmployerShare = formatNum(Math.round(basicVal * 0.12));
-      updated.esiEmployerShare = formatNum(Math.round(grossIncome * 0.0325));
-      updated.employerWelfareFund = formatNum(50);
 
     } else {
       // --- MODULUSTEC CALCULATION (Strictly Independent) ---
@@ -401,7 +420,7 @@ function App() {
         // MODULUSTEC SMART LOCKING LOGIC
         // We divide the Gross into 55% Basic and 45% Allowances.
         // Once a person's structure is set, changing Net Salary ONLY affects Conveyance.
-        
+
         const keysToFreeze = ['basic', 'lta', 'hra', 'addlHra', 'medical', 'transport', 'superannuation', 'lunch'];
         const masterSlipIdx = allSlips.findIndex(s => s.id === updated.id);
         const isMaster = masterSlipIdx === 0;
@@ -411,7 +430,7 @@ function App() {
         const hasExistingStructure = parseNum(updated.basic) > 0;
 
         let fixedSum = 0;
-        
+
         if (isMaster && !hasExistingStructure) {
           // --- INITIAL SETUP (Perfect 55/45 split) ---
           const basicVal = Math.round(targetEarnings * 0.55);
@@ -422,7 +441,7 @@ function App() {
           // There are 8 allowance categories: Conveyance + the 7 fixed ones.
           // The user wants them shared equally initially.
           const perAllowance = Math.round(allowancePool / 8);
-          
+
           keysToFreeze.forEach(key => {
             if (key !== 'basic') {
               updated[key] = formatNum(perAllowance);
@@ -431,7 +450,7 @@ function App() {
           });
           // Final Tally for Conveyance (handles rounding errors)
           updated.conveyance = formatNum(targetEarnings - fixedSum);
-          
+
         } else if (isMaster && hasExistingStructure) {
           // --- UPDATING NET SALARY ON EXISTING PERSON (Only Conveyance Absorbs Difference) ---
           keysToFreeze.forEach(key => {
@@ -440,7 +459,7 @@ function App() {
           });
           // Update Conveyance to bridge the gap to the new target
           updated.conveyance = formatNum(targetEarnings - fixedSum);
-          
+
         } else {
           // --- MONTH 2+ FOR SAME PERSON (Strictly Frozen to Master Structure) ---
           keysToFreeze.forEach(key => {
@@ -511,7 +530,7 @@ function App() {
       <div className="sidebar no-print">
         <h2>Batch Payslip Generator</h2>
         <div className="fields-section">
-          
+
           <div className="category-header">Company Details</div>
           <div className="field-group">
             <label>Company Name</label>
@@ -550,7 +569,7 @@ function App() {
           <div className="category-header">Employee Details</div>
           {Object.keys(commonDetails).map((key) => {
             if (key === 'companyName' || key === 'companyLogo') return null;
-            
+
             if (key === 'location') {
               return (
                 <div key={key} className="field-group">
@@ -587,22 +606,22 @@ function App() {
             return (
               <div key={key} className="field-group">
                 <label>
-                  {key === 'employeeName' ? 'Employee Name' : 
-                   key === 'empId' ? 'Employee ID' : 
-                   key === 'pan' ? 'PAN NUMBER' : 
-                   key === 'uan' ? 'UAN NO' : 
-                   key === 'esi' ? 'ESI ACCOUNT NO' : 
-                   key === 'pfNo' ? 'PF NO' : 
-                   key === 'deptCode' ? 'DEPARTMENT CODE' : 
-                   key === 'doj' ? 'Date of Joining' : 
-                   key === 'bankAccNo' ? 'Bank Account No' : 
-                   key === 'ifscCode' ? 'IFSC Code' :
-                   key === 'branchName' ? 'Branch' :
-                   key === 'grade' ? 'Grade' :
-                   key === 'division' ? 'Division' :
-                   key === 'costCenter' ? 'Cost Center' :
-                   key === 'welfarePensionNo' ? 'Emp Welfare Pension Number' :
-                   key}
+                  {key === 'employeeName' ? 'Employee Name' :
+                    key === 'empId' ? 'Employee ID' :
+                      key === 'pan' ? 'PAN NUMBER' :
+                        key === 'uan' ? 'UAN NO' :
+                          key === 'esi' ? 'ESI ACCOUNT NO' :
+                            key === 'pfNo' ? 'PF NO' :
+                              key === 'deptCode' ? 'DEPARTMENT CODE' :
+                                key === 'doj' ? 'Date of Joining' :
+                                  key === 'bankAccNo' ? 'Bank Account No' :
+                                    key === 'ifscCode' ? 'IFSC Code' :
+                                      key === 'branchName' ? 'Branch' :
+                                        key === 'grade' ? 'Grade' :
+                                          key === 'division' ? 'Division' :
+                                            key === 'costCenter' ? 'Cost Center' :
+                                              key === 'welfarePensionNo' ? 'Emp Welfare Pension Number' :
+                                                key}
                 </label>
                 <input
                   type="text"
@@ -618,11 +637,11 @@ function App() {
               <div className="category-header">Monthly Payslips</div>
               <button className="add-btn" onClick={addNewMonth}>+ Add Month</button>
             </div>
-            
+
             {monthlySlips.map((slip, index) => (
               <div key={slip.id} className="month-card">
-                <div 
-                  className="month-card-header" 
+                <div
+                  className="month-card-header"
                   onClick={() => setExpandedId(expandedId === slip.id ? null : slip.id)}
                 >
                   <strong>{slip.monthYear}</strong>
@@ -638,17 +657,17 @@ function App() {
                     {(() => {
                       const fmt = COMPANY_DATA[commonDetails.companyName.toUpperCase().trim()]?.format;
                       const name = commonDetails.companyName.toUpperCase();
-                      const isApex = fmt === 'apex' || (name.includes('APEX') && !name.includes('AXION') && !name.includes('AXIOM')) || 
-                                     name.includes('SWIFTLINE') || name.includes('KINETIC') || 
-                                     name.includes('RAYGEN') || name.includes('LUXEGLOW') || 
-                                     name.includes('VOGUE') || name.includes('SOLARIS') || name.includes('HERITAGE');
+                      const isApex = fmt === 'apex' || (name.includes('APEX') && !name.includes('AXION') && !name.includes('AXIOM')) ||
+                        name.includes('SWIFTLINE') || name.includes('KINETIC') ||
+                        name.includes('RAYGEN') || name.includes('LUXEGLOW') ||
+                        name.includes('VOGUE') || name.includes('SOLARIS') || name.includes('HERITAGE');
                       const isAxion = fmt === 'axion' || name.includes('AXION') || name.includes('AXIOM');
-                      
+
                       const apexFields = [
                         'monthYear', 'empId', 'employeeName', 'grade', 'bankAccNo', 'netSalary',
                         'lopDays', 'paidDays', 'pf', 'pt', 'inWords'
                       ];
-                      
+
                       const modFields = [
                         'monthYear', 'lopDays', 'paidDays', 'netSalary',
                         'basic', 'conveyance', 'lta', 'hra', 'addlHra', 'medical', 'transport', 'superannuation', 'lunch',
@@ -666,25 +685,25 @@ function App() {
                           <div key={key} className="field-group">
                             <label>
                               {key === 'monthYear' ? 'MONTH & YEAR' :
-                               key === 'empId' ? 'EMPLOYEE ID' :
-                               key === 'employeeName' ? 'EMPLOYEE NAME' :
-                               key === 'grade' ? 'GRADE' :
-                               key === 'bankAccNo' ? 'BANK A/C NO' :
-                               key === 'pf' ? 'PF DEDUCTION' :
-                               key === 'pt' ? 'PRO TAX (PT)' :
-                               key === 'wwf' ? 'WWF DEDUCTION' :
-                               key === 'netSalary' ? 'TARGET NET SALARY' :
-                               key === 'basic' ? 'BASIC PAY' :
-                               key === 'conveyance' ? 'CONVEYANCE' :
-                               key === 'lta' ? 'LTA MONTHLY' :
-                               key === 'hra' ? 'HOUSE RENT ALLOWANCE' :
-                               key === 'addlHra' ? 'ADDITIONAL HRA' :
-                               key === 'medical' ? 'MEDICAL ALLOWANCE' :
-                               key === 'transport' ? 'TRANSPORT ALLOW' :
-                               key === 'superannuation' ? 'SUPERANNUATION' :
-                               key === 'lunch' ? 'LUNCH ALLOWANCE' :
-                               key === 'inWords' ? 'IN WORDS' :
-                               key}
+                                key === 'empId' ? 'EMPLOYEE ID' :
+                                  key === 'employeeName' ? 'EMPLOYEE NAME' :
+                                    key === 'grade' ? 'GRADE' :
+                                      key === 'bankAccNo' ? 'BANK A/C NO' :
+                                        key === 'pf' ? 'PF DEDUCTION' :
+                                          key === 'pt' ? 'PRO TAX (PT)' :
+                                            key === 'wwf' ? 'WWF DEDUCTION' :
+                                              key === 'netSalary' ? 'TARGET NET SALARY' :
+                                                key === 'basic' ? 'BASIC PAY' :
+                                                  key === 'conveyance' ? 'CONVEYANCE' :
+                                                    key === 'lta' ? 'LTA MONTHLY' :
+                                                      key === 'hra' ? 'HOUSE RENT ALLOWANCE' :
+                                                        key === 'addlHra' ? 'ADDITIONAL HRA' :
+                                                          key === 'medical' ? 'MEDICAL ALLOWANCE' :
+                                                            key === 'transport' ? 'TRANSPORT ALLOW' :
+                                                              key === 'superannuation' ? 'SUPERANNUATION' :
+                                                                key === 'lunch' ? 'LUNCH ALLOWANCE' :
+                                                                  key === 'inWords' ? 'IN WORDS' :
+                                                                    key}
                             </label>
                             {key === 'monthYear' ? (
                               <select
@@ -718,17 +737,17 @@ function App() {
           Download All as PDF / Print
         </button>
       </div>
-      
+
       <div className="preview-area">
         {monthlySlips.map(slip => (
           <div key={slip.id} className="payslip-page-wrapper">
             {(() => {
               const fmt = COMPANY_DATA[commonDetails.companyName.toUpperCase().trim()]?.format;
               const name = commonDetails.companyName.toUpperCase();
-              
-              if (fmt === 'apex' || (name.includes('APEX') && !name.includes('AXION') && !name.includes('AXIOM')) || 
-                  name.includes('SWIFTLINE') || name.includes('KINETIC') || name.includes('RAYGEN') || 
-                  name.includes('LUXEGLOW') || name.includes('VOGUE') || name.includes('SOLARIS') || name.includes('HERITAGE')) {
+
+              if (fmt === 'apex' || (name.includes('APEX') && !name.includes('AXION') && !name.includes('AXIOM')) ||
+                name.includes('SWIFTLINE') || name.includes('KINETIC') || name.includes('RAYGEN') ||
+                name.includes('LUXEGLOW') || name.includes('VOGUE') || name.includes('SOLARIS') || name.includes('HERITAGE')) {
                 return <ApexPayslip data={{ ...commonDetails, ...slip }} />;
               } else if (fmt === 'axion' || name.includes('AXION') || name.includes('AXIOM')) {
                 return <AxionPayslip data={{ ...commonDetails, ...slip }} />;
