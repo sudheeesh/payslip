@@ -158,7 +158,7 @@ function App() {
   const [monthlySlips, setMonthlySlips] = useState([
     {
       id: 1,
-      monthYear: 'September, 2025',
+      monthYear: 'September 2025',
       basic: '41918',
       hra: '9146',
       travelingAllowance: '6097',
@@ -199,11 +199,13 @@ function App() {
 
   const [expandedId, setExpandedId] = useState(monthlySlips[0].id);
 
-  const monthOptions = [
-    "JANUARY 2025", "FEBRUARY 2025", "MARCH 2025", "APRIL 2025", "MAY 2025", "JUNE 2025", "JULY 2025", "AUGUST 2025", "SEPTEMBER 2025", "OCTOBER 2025", "NOVEMBER 2025", "DECEMBER 2025",
-    "JANUARY 2026", "FEBRUARY 2026", "MARCH 2026", "APRIL 2026", "MAY 2026", "JUNE 2026", "JULY 2026", "AUGUST 2026", "SEPTEMBER 2026", "OCTOBER 2026", "NOVEMBER 2026", "DECEMBER 2026",
-    "JANUARY 2027", "FEBRUARY 2027", "MARCH 2027", "APRIL 2027", "MAY 2027", "JUNE 2027", "JULY 2027", "AUGUST 2027", "SEPTEMBER 2027", "OCTOBER 2027", "NOVEMBER 2027", "DECEMBER 2027",
-  ];
+  const monthOptions = [];
+  const monthNamesList = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  for (let year = 2024; year <= 2050; year++) {
+    monthNamesList.forEach(month => {
+      monthOptions.push(`${month} ${year}`);
+    });
+  }
 
   const numberToWords = (num) => {
     if (num === 0) return 'Zero';
@@ -492,7 +494,7 @@ function App() {
         if (slip.id === id) {
           if (key === 'monthYear') {
             const newSlip = { ...slip, [key]: val };
-            const monthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             const [mName, yearStr] = val.split(' ');
             const mIndex = monthNames.indexOf(mName);
             if (mIndex !== -1 && yearStr) {
@@ -684,7 +686,7 @@ function App() {
                         return (
                           <div key={key} className="field-group">
                             <label>
-                              {key === 'monthYear' ? 'MONTH & YEAR' :
+                              {key === 'monthYear' ? 'Month & Year' :
                                 key === 'empId' ? 'EMPLOYEE ID' :
                                   key === 'employeeName' ? 'EMPLOYEE NAME' :
                                     key === 'grade' ? 'GRADE' :
