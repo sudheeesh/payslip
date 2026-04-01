@@ -91,10 +91,10 @@ const COMPANY_DATA = {
     format: 'default',
     logo: 'https://res.cloudinary.com/dpu9ikeqe/image/upload/v1770792890/PROMANAGE_CONSULTANTS_futvos.png',
     addresses: {
-      'CHENNAI': 'S105, 2nd floor, Phase-3, Spencer Plaza Mall, Anna Salai, Chennai, Tamil Nadu 600002',
-      'KOCHI': '205, 3rd Floor, Pioneer Tower, Shanmugham Rd, Marine Drive, Kochi, Kerala 682031',
-      'THIRUVANANTHAPURAM': 'Impact Rose Gardens Jn, Technopark, Karyavattom, Trivandrum 695581',
-      'BENGALURU': 'Concorde Tower 2 Level 10, UB City, Vittal Mallya Rd, Bengaluru 560001',
+      'Chennai': 'S105, 2nd floor, Phase-3, Spencer Plaza Mall, Anna Salai, Chennai, Tamil Nadu 600002',
+      'Kochi': '205, 3rd Floor, Pioneer Tower, Shanmugham Rd, Marine Drive, Kochi, Kerala 682031',
+      'Thiruvananthapuram': 'Impact Rose Gardens Jn, Technopark, Karyavattom, Trivandrum 695581',
+      'Bangalore': 'Concorde Tower 2 Level 10, UB City, Vittal Mallya Rd, Bengaluru 560001',
     }
   },
   'SOLARIS POWER TECH PVT LTD': {
@@ -106,25 +106,41 @@ const COMPANY_DATA = {
     format: 'default',
     logo: 'https://res.cloudinary.com/dpu9ikeqe/image/upload/v1770872215/ELITE_MANAGEMENT_SERVICES_PVT_LTD-LOGO_qkwg4f.png',
     addresses: {
-      'CHENNAI': '12/4, Wallace Garden, Nungambakkam, Chennai, Tamil Nadu 600006',
-      'KOCHI': '5B, Marine Drive, Ernakulam, kochi, Kerala 682031',
-      'THIRUVANANTHAPURAM': 'TC 15/12, Kowdiar Palace Road, Trivandrum, Kerala 695003',
+      'Chennai': '12/4, Wallace Garden, Nungambakkam, Chennai, Tamil Nadu 600006',
+      'Kochi': '5B, Marine Drive, Ernakulam, kochi, Kerala 682031',
+      'Thiruvananthapuram': 'TC 15/12, Kowdiar Palace Road, Trivandrum, Kerala 695003',
+    }
+  },
+  'MODULUSTEC PVT LTD': {
+    format: 'default',
+    logo: '',
+    addresses: {
+      'Kochi': '211, 4th Floor, SCK 01, Smartcity Road, Kochi, Kakkanad, Kerala 682042',
+      'Chennai': 'No. 45, Anna Salai, Teynampet, Chennai, Tamil Nadu 600018',
     }
   },
   'GENESIS GREEN TECH PVT LTD': {
     format: 'default',
     logo: 'https://res.cloudinary.com/dpu9ikeqe/image/upload/v1774951031/logo_no_bg_svpbqt.png',
     addresses: {
-      'BENGALURU': 'Plot 42, Electronics City Phase 1, Bangalore, Karnataka 560100',
-      'KOCHI': '2nd Floor, Infopark Phase II, Kakkanad, Kochi, Kerala 682030',
-      'THIRUVANANTHAPURAM': 'HV5M+54X, Technopark Campus, Kazhakkoottam, Trivandrum 695581',
+      'Bangalore': 'Plot 42, Electronics City Phase 1, Bangalore, Karnataka 560100',
+      'Kochi': '2nd Floor, Infopark Phase II, Kakkanad, Kochi, Kerala 682030',
+      'Thiruvananthapuram': 'HV5M+54X, Technopark Campus, Kazhakkoottam, Trivandrum 695581',
+    }
+  },
+  'APEX ASSET PARTNERS PVT LTD': {
+    format: 'apex',
+    logo: 'https://res.cloudinary.com/dpu9ikeqe/image/upload/v1774935580/file_000000006c8871fab4f2bfef2e2f890d_oncodx.png',
+    addresses: {
+      'Chennai': 'Raheja Tower, No. 45, Anna Salai, Teynampet, Chennai, Tamil Nadu 600018',
+      'Thiruvananthapuram': 'HV5M+54X, Technopark Campus, Kazhakkoottam, Trivandrum 695581',
     }
   },
   'AXION IT PVT LTD': {
     format: 'axion',
     logo: 'https://res.cloudinary.com/dpu9ikeqe/image/upload/v1774935592/AXION_LOGO_1_jaefgu.png',
     addresses: {
-      'THIRUVANANTHAPURAM': 'Park Centre, Technopark Campus, Kazhakkoottam, Trivandrum, Kerala 695581',
+      'Thiruvananthapuram': 'Park Centre, Technopark Campus, Kazhakkoottam, Trivandrum, Kerala 695581',
     }
   }
 };
@@ -139,7 +155,7 @@ function App() {
     department: 'Engineering Manager',
     grade: 'M2',
     division: 'Operations Management',
-    location: 'CHENNAI',
+    location: 'Chennai',
     bankAccNo: '36595650067',
     bankName: 'SBT',
     ifscCode: 'SBIN0000973',
@@ -288,9 +304,8 @@ function App() {
       updated.totalEarnings = formatNum(totalEarnings);
 
       const apexFixedKeys = ['basic', 'hra', 'travel', 'medical', 'special', 'foodAllowance'];
-      const masterSlipIdx = allSlips.findIndex(s => s.id === updated.id);
-      const isMaster = masterSlipIdx === 0;
-      const masterSlip = allSlips[0] || updated;
+      const masterSlip = allSlips.find(s => (s.empId === updated.empId || s.employeeName === updated.employeeName) && parseNum(s.basic) > 0) || updated;
+      const isMaster = masterSlip.id === updated.id;
 
       // Check if we already have a full baseline (Basic + key fixed items must be non-zero)
       const hasBaseline = parseNum(masterSlip.basic) > 0 && parseNum(masterSlip.travel) > 0 && parseNum(masterSlip.foodAllowance) > 0;
@@ -362,7 +377,7 @@ function App() {
       const totalIncome = netValue + totalDeductions;
       updated.totalIncome = formatNum(totalIncome);
 
-      // Employer Fixed Shares (to be subtracted before distribution so everything tallies perfectly)
+      // Employer Fixed Shares
       const empPf = 558;
       const empEsi = 359;
       const empWelfare = 50;
@@ -373,17 +388,17 @@ function App() {
       const totalEmpShares = empPf + empEsi + empWelfare;
       const distributablePool = totalIncome - totalEmpShares;
 
-      // AXION SMART LOCKING (Month 1 serves as structure master for basic and fixed items)
-      const masterSlipIdx = allSlips.findIndex(s => s.id === updated.id);
-      const isMaster = masterSlipIdx === 0;
-      const masterSlip = allSlips[0] || updated;
+      // AXION SMART LOCKING (Structure frozen from Month 1)
+      const masterSlip = allSlips.find(s => (s.empId === updated.empId || s.employeeName === updated.employeeName) && parseNum(s.basic) > 0 && s.id !== updated.id) || updated;
+      const isMaster = masterSlip.id === updated.id;
       const hasExistingStructure = parseNum(updated.basic) > 0;
 
       let basicVal = 0;
       let otherPoolTotal = 0;
+      let coreVariableTotal = 0;
 
       if (isMaster && !hasExistingStructure) {
-        // --- INITIAL SETUP (55/40 split) ---
+        // --- INITIAL SETUP (55/40/5 split) ---
         basicVal = Math.round(distributablePool * 0.55);
         updated.basic = formatNum(basicVal);
 
@@ -397,40 +412,45 @@ function App() {
         updated.shiftAllowance = formatNum(shiftVal);
         updated.travelingAllowance = formatNum(travelVal);
         updated.cityCompensatory = formatNum(cityVal);
+
+        // Core variables (set to standard modest values)
+        updated.nightFoodAllowance = formatNum(2000);
+        updated.holidayAllowance = formatNum(500);
+        coreVariableTotal = 2500;
       } else {
-        // --- PERSISTENT STRUCTURE (Frozen from Master Slip) ---
+        // --- PERSISTENT CORE (Frozen from Master Slip) ---
         basicVal = parseNum(masterSlip.basic);
         updated.basic = formatNum(basicVal);
 
-        // Map fixed other items correctly from master
         updated.hra = formatNum(parseNum(masterSlip.hra));
         updated.shiftAllowance = formatNum(parseNum(masterSlip.shiftAllowance));
         updated.travelingAllowance = formatNum(parseNum(masterSlip.travelingAllowance));
         updated.cityCompensatory = formatNum(parseNum(masterSlip.cityCompensatory));
-        
         otherPoolTotal = parseNum(updated.hra) + parseNum(updated.shiftAllowance) + 
                          parseNum(updated.travelingAllowance) + parseNum(updated.cityCompensatory);
+
+        updated.nightFoodAllowance = formatNum(parseNum(masterSlip.nightFoodAllowance));
+        updated.holidayAllowance = formatNum(parseNum(masterSlip.holidayAllowance));
+        coreVariableTotal = parseNum(updated.nightFoodAllowance) + parseNum(updated.holidayAllowance);
       }
 
-      const grossIncome = basicVal + otherPoolTotal;
-      updated.grossIncome = formatNum(grossIncome);
+      updated.grossIncome = formatNum(basicVal + otherPoolTotal);
 
-      // --- VARIABLE COMPONENTS (Absorb the remaining target pool) ---
-      const variablePool = distributablePool - grossIncome;
-      if (variablePool >= 0) {
-        const nightFood = Math.round(variablePool * (2000 / 2318));
-        updated.nightFoodAllowance = formatNum(nightFood);
-        updated.holidayAllowance = formatNum(variablePool - nightFood);
+      // --- DYNAMIC ABSORPTION (Target gap is reflected in Special Variable Pay / Incentive) ---
+      const remainingTarget = distributablePool - (basicVal + otherPoolTotal + coreVariableTotal);
+      if (remainingTarget >= 0) {
+        // Distribute the absorber gap (incentive/variable) in a 70/30 split
+        const specialVar = Math.round(remainingTarget * 0.70);
+        updated.specialVariablePay = formatNum(specialVar);
+        updated.loyaltyBonus = formatNum(remainingTarget - specialVar);
       } else {
-        updated.nightFoodAllowance = formatNum(0);
-        updated.holidayAllowance = formatNum(0);
+        updated.specialVariablePay = formatNum(0);
+        updated.loyaltyBonus = formatNum(0);
       }
 
       // Defaults for unused components
       updated.professionalAllowance = formatNum(0);
       updated.referral = formatNum(0);
-      updated.specialVariablePay = formatNum(0);
-      updated.loyaltyBonus = formatNum(0);
 
     } else {
       // --- MODULUSTEC CALCULATION (Strictly Independent) ---
@@ -450,9 +470,8 @@ function App() {
         // Once a person's structure is set, changing Net Salary ONLY affects Conveyance.
 
         const keysToFreeze = ['basic', 'lta', 'hra', 'addlHra', 'medical', 'transport', 'superannuation', 'lunch'];
-        const masterSlipIdx = allSlips.findIndex(s => s.id === updated.id);
-        const isMaster = masterSlipIdx === 0;
-        const masterSlip = allSlips[0] || updated;
+        const masterSlip = allSlips.find(s => (s.empId === updated.empId || s.employeeName === updated.employeeName) && parseNum(s.basic) > 0 && s.id !== updated.id) || updated;
+        const isMaster = masterSlip.id === updated.id;
 
         // Check if we already have a calculated structure (Basic > 0)
         const hasExistingStructure = parseNum(updated.basic) > 0;
@@ -608,10 +627,10 @@ function App() {
                     style={{ width: '100%', padding: '8px', border: '1px solid #cbd5e1', borderRadius: '4px', fontFamily: 'Arial' }}
                   >
                     <option value="">-- Select City --</option>
-                    <option value="CHENNAI">Chennai</option>
-                    <option value="KOCHI">Kochi</option>
-                    <option value="TRIVANDRUM">Trivandrum</option>
-                    <option value="BANGALORE">Bangalore</option>
+                    <option value="Chennai">Chennai</option>
+                    <option value="Kochi">Kochi</option>
+                    <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                    <option value="Bangalore">Bangalore</option>
                   </select>
                 </div>
               );
