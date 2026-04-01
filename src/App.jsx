@@ -75,7 +75,12 @@ const COMPANY_DATA = {
   'RAYGEN RENEWABLES PVT LTD': {
     format: 'apex',
     logo: 'https://res.cloudinary.com/dpu9ikeqe/image/upload/v1774935596/file_00000000e6d871fab5636b306de0fa2d_ckvefc.png',
-    address: 'Raygen Solar Farm, 88 Energy Drive, Jaipur, Rajasthan 302001'
+    addresses: {
+      'Kochi': '2nd Floor, Lalan Tower, High Court Junction, Marine Drive, Kochi, Kerala 682031',
+      'Chennai': 'S-2 plaza, SIDCO Industrial Estate, Guindy Road Salai, Chennai, Tamil Nadu 600032',
+      'Thiruvananthapuram': '4th floor Technopark Ganga Building, Phase 3, Kulathoor, Thiruvananthapuram, Kerala 695581',
+      'Bangalore': '3rd Floor, Hothur Square, 100 Feet Rd, Indiranagar, Bangalore, Karnataka 560038'
+    }
   },
   'LUXEGLOW PVT LTD': {
     format: 'apex',
@@ -100,7 +105,12 @@ const COMPANY_DATA = {
   'SOLARIS POWER TECH PVT LTD': {
     format: 'apex',
     logo: 'https://res.cloudinary.com/dpu9ikeqe/image/upload/v1774948726/file_00000000c9ac71faba57c37284542b5c_btcwfc.png',
-    address: 'Solaris Power Park, 4th Floor, Solar House, Whitefield, Bangalore, Karnataka 560066'
+    addresses: {
+      'Kochi': '42 Alliance Building, Marine Drive, Kochi, Kerala 682031, India',
+      'Thiruvananthapuram': '15/B, Technopark Campus, Kazhakkoottam, Trivandrum, Kerala 695581, India',
+      'Chennai': '88, OMR IT Expressway, Sholinganallur, Chennai, Tamil Nadu 600119, India',
+      'Bangalore': '102, Indiranagar 100ft Road, Bangalore, Karnataka 560038, India'
+    }
   },
   'ELITE MANAGEMENT SERVICES PVT LTD': {
     format: 'default',
@@ -141,6 +151,26 @@ const COMPANY_DATA = {
     logo: 'https://res.cloudinary.com/dpu9ikeqe/image/upload/v1774935592/AXION_LOGO_1_jaefgu.png',
     addresses: {
       'Thiruvananthapuram': 'Park Centre, Technopark Campus, Kazhakkoottam, Trivandrum, Kerala 695581',
+    }
+  },
+  'COGNIMARK PVT LTD': {
+    format: 'default',
+    logo: '',
+    addresses: {
+      'Kochi': 'Block Brigade, 5 - 9th Floor B, Level 5, Cyber Tower, Infopark, Kochi, Kerala 682030',
+      'Chennai': 'No. 153, Rajiv Gandhi Salai, OMR Rd, Karapakkam Village, Chennai, Tamil Nadu 600097',
+      'Bangalore': '272, 6th Main Rd, HAL 3rd Stage, Motappapalya, Indiranagar, Bangalore, Karnataka 560038',
+      'Thiruvananthapuram': '13th Floor, Yamuna Building, Technopark Phase III Main Rd, Trivandrum, Kerala 695583',
+    }
+  },
+  'HYPERION LABS PVT LTD': {
+    format: 'default',
+    logo: '',
+    addresses: {
+      'Chennai': 'No. 45, Anna Salai, Guindy, Chennai - 600032',
+      'Kochi': '3rd Floor, Lulu Cyber Tower, Infopark, Kochi - 682030',
+      'Bangalore': '12, MG Road, Indiranagar, Bangalore - 560038',
+      'Thiruvananthapuram': 'TC 15/124, Kowdiar, Near Palace Road, Trivandrum - 695003',
     }
   }
 };
@@ -306,12 +336,10 @@ function App() {
       const apexFixedKeys = ['basic', 'hra', 'travel', 'medical', 'special', 'foodAllowance'];
       const masterSlip = allSlips.find(s => (s.empId === updated.empId || s.employeeName === updated.employeeName) && parseNum(s.basic) > 0) || updated;
       const isMaster = masterSlip.id === updated.id;
-
-      // Check if we already have a full baseline (Basic + key fixed items must be non-zero)
-      const hasBaseline = parseNum(masterSlip.basic) > 0 && parseNum(masterSlip.travel) > 0 && parseNum(masterSlip.foodAllowance) > 0;
+      const hasBaseline = parseNum(updated.basic) > 0 && parseNum(updated.travel) > 0;
 
       let fixedSum = 0;
-      if (isMaster && !hasBaseline) {
+      if (isMaster && (fieldChanged === 'netPay' || fieldChanged === 'netSalary' || !hasBaseline)) {
         // --- INITIAL APEX SETUP (55% Basic / 45% Other Pool) ---
         const basicVal = Math.round(totalEarnings * 0.55);
         updated.basic = formatNum(basicVal);
@@ -394,62 +422,64 @@ function App() {
       const hasExistingStructure = parseNum(updated.basic) > 0;
 
       let basicVal = 0;
-      let otherPoolTotal = 0;
-      let coreVariableTotal = 0;
+      let hraVal = 0;
+      let travelVal = 0;
+      let cityVal = 0;
+      let profVal = 0;
+      let nightFoodVal = 0;
+      let holidayVal = 0;
 
-      if (isMaster && !hasExistingStructure) {
-        // --- INITIAL SETUP (55/40/5 split) ---
+      if (isMaster && (fieldChanged === 'netSalary' || fieldChanged === 'netPay' || !hasExistingStructure)) {
+        // --- INITIAL SETUP (55/45 split) ---
         basicVal = Math.round(distributablePool * 0.55);
         updated.basic = formatNum(basicVal);
 
-        otherPoolTotal = Math.round(distributablePool * 0.40);
-        const hraVal = Math.round(otherPoolTotal * 0.30);
-        const shiftVal = Math.round(otherPoolTotal * 0.30);
-        const travelVal = Math.round(otherPoolTotal * 0.20);
-        const cityVal = otherPoolTotal - hraVal - shiftVal - travelVal;
+        const allowancePool = distributablePool - basicVal;
         
+        // Fix the other pieces based on requested targets (12, 10, 8, 5)
+        hraVal = Math.round(distributablePool * 0.12);
+        travelVal = Math.round(distributablePool * 0.10);
+        cityVal = Math.round(distributablePool * 0.08);
+        profVal = Math.round(distributablePool * 0.05);
+        nightFoodVal = 2000;
+        holidayVal = 500;
+
         updated.hra = formatNum(hraVal);
-        updated.shiftAllowance = formatNum(shiftVal);
         updated.travelingAllowance = formatNum(travelVal);
         updated.cityCompensatory = formatNum(cityVal);
-
-        // Core variables (set to standard modest values)
-        updated.nightFoodAllowance = formatNum(2000);
-        updated.holidayAllowance = formatNum(500);
-        coreVariableTotal = 2500;
+        updated.professionalAllowance = formatNum(profVal);
+        updated.nightFoodAllowance = formatNum(nightFoodVal);
+        updated.holidayAllowance = formatNum(holidayVal);
       } else {
         // --- PERSISTENT CORE (Frozen from Master Slip) ---
         basicVal = parseNum(masterSlip.basic);
         updated.basic = formatNum(basicVal);
 
-        updated.hra = formatNum(parseNum(masterSlip.hra));
-        updated.shiftAllowance = formatNum(parseNum(masterSlip.shiftAllowance));
-        updated.travelingAllowance = formatNum(parseNum(masterSlip.travelingAllowance));
-        updated.cityCompensatory = formatNum(parseNum(masterSlip.cityCompensatory));
-        otherPoolTotal = parseNum(updated.hra) + parseNum(updated.shiftAllowance) + 
-                         parseNum(updated.travelingAllowance) + parseNum(updated.cityCompensatory);
+        hraVal = parseNum(masterSlip.hra);
+        travelVal = parseNum(masterSlip.travelingAllowance);
+        cityVal = parseNum(masterSlip.cityCompensatory);
+        profVal = parseNum(masterSlip.professionalAllowance);
+        nightFoodVal = parseNum(masterSlip.nightFoodAllowance);
+        holidayVal = parseNum(masterSlip.holidayAllowance);
 
-        updated.nightFoodAllowance = formatNum(parseNum(masterSlip.nightFoodAllowance));
-        updated.holidayAllowance = formatNum(parseNum(masterSlip.holidayAllowance));
-        coreVariableTotal = parseNum(updated.nightFoodAllowance) + parseNum(updated.holidayAllowance);
+        updated.hra = formatNum(hraVal);
+        updated.travelingAllowance = formatNum(travelVal);
+        updated.cityCompensatory = formatNum(cityVal);
+        updated.professionalAllowance = formatNum(profVal);
+        updated.nightFoodAllowance = formatNum(nightFoodVal);
+        updated.holidayAllowance = formatNum(holidayVal);
       }
 
-      updated.grossIncome = formatNum(basicVal + otherPoolTotal);
+      // --- DYNAMIC ABSORPTION (Target gap is reflected ONLY in Shift Allowance) ---
+      const fixedSum = basicVal + hraVal + travelVal + cityVal + profVal + nightFoodVal + holidayVal;
+      const shiftVal = distributablePool - fixedSum;
+      updated.shiftAllowance = formatNum(shiftVal);
 
-      // --- DYNAMIC ABSORPTION (Target gap is reflected in Special Variable Pay / Incentive) ---
-      const remainingTarget = distributablePool - (basicVal + otherPoolTotal + coreVariableTotal);
-      if (remainingTarget >= 0) {
-        // Distribute the absorber gap (incentive/variable) in a 70/30 split
-        const specialVar = Math.round(remainingTarget * 0.70);
-        updated.specialVariablePay = formatNum(specialVar);
-        updated.loyaltyBonus = formatNum(remainingTarget - specialVar);
-      } else {
-        updated.specialVariablePay = formatNum(0);
-        updated.loyaltyBonus = formatNum(0);
-      }
+      updated.grossIncome = formatNum(basicVal + hraVal + travelVal + cityVal + profVal + shiftVal);
 
-      // Defaults for unused components
-      updated.professionalAllowance = formatNum(0);
+      // Incentives and Bonus are set to 0 strictly
+      updated.specialVariablePay = formatNum(0);
+      updated.loyaltyBonus = formatNum(0);
       updated.referral = formatNum(0);
 
     } else {
@@ -472,13 +502,11 @@ function App() {
         const keysToFreeze = ['basic', 'lta', 'hra', 'addlHra', 'medical', 'transport', 'superannuation', 'lunch'];
         const masterSlip = allSlips.find(s => (s.empId === updated.empId || s.employeeName === updated.employeeName) && parseNum(s.basic) > 0 && s.id !== updated.id) || updated;
         const isMaster = masterSlip.id === updated.id;
-
-        // Check if we already have a calculated structure (Basic > 0)
         const hasExistingStructure = parseNum(updated.basic) > 0;
 
         let fixedSum = 0;
 
-        if (isMaster && !hasExistingStructure) {
+        if (isMaster && (fieldChanged === 'netSalary' || !hasExistingStructure)) {
           // --- INITIAL SETUP (Perfect 55/45 split) ---
           const basicVal = Math.round(targetEarnings * 0.55);
           updated.basic = formatNum(basicVal);

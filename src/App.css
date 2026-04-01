@@ -149,11 +149,18 @@
 }
 
 @media print {
+  @page {
+    size: auto;
+    margin: 0mm; /* This hides the browser's date/time/title/url headers and footers */
+  }
+
   body {
     background-color: white;
+    margin: 0;
+    padding: 0;
   }
   
-  .no-print, .sidebar {
+  .no-print, .sidebar, .print-button {
     display: none !important;
   }
   
@@ -161,21 +168,24 @@
     height: auto;
     overflow: visible;
     background-color: white;
+    display: block;
   }
 
   .preview-area {
     padding: 0;
     margin: 0;
     background-color: white;
-    justify-content: flex-start;
+    display: block;
     gap: 0;
   }
 
   .payslip-page-wrapper {
     box-shadow: none;
-    padding: 0;
+    padding: 10mm 15mm; /* Add safe padding for the content since page margin is 0 */
     margin: 0;
     page-break-after: always;
+    width: 100% !important;
+    max-width: 100% !important;
   }
   
   .payslip-page-wrapper:last-child {
