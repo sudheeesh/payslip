@@ -610,20 +610,20 @@ function App() {
                 <label>
                   {key === 'employeeName' ? 'Employee Name' :
                     key === 'empId' ? 'Employee ID' :
-                      key === 'pan' ? 'PAN NUMBER' :
-                        key === 'uan' ? 'UAN NO' :
-                          key === 'esi' ? 'ESI ACCOUNT NO' :
-                            key === 'pfNo' ? 'PF NO' :
-                              key === 'deptCode' ? 'DEPARTMENT CODE' :
-                                key === 'doj' ? 'Date of Joining' :
-                                  key === 'bankAccNo' ? 'Bank Account No' :
-                                    key === 'ifscCode' ? 'IFSC Code' :
-                                      key === 'branchName' ? 'Branch' :
-                                        key === 'grade' ? 'Grade' :
-                                          key === 'division' ? 'Division' :
-                                            key === 'costCenter' ? 'Cost Center' :
-                                              key === 'welfarePensionNo' ? 'Emp Welfare Pension Number' :
-                                                key}
+                      key === 'pan' ? 'PAN Number' :
+                         key === 'uan' ? 'UAN No' :
+                           key === 'esi' ? 'ESI Account No' :
+                             key === 'pfNo' ? 'PF No' :
+                               key === 'deptCode' ? 'Department Code' :
+                                 key === 'doj' ? 'Date of Joining' :
+                                   key === 'bankAccNo' ? 'Bank Account No' :
+                                     key === 'ifscCode' ? 'IFSC Code' :
+                                       key === 'branchName' ? 'Branch' :
+                                         key === 'grade' ? 'Grade' :
+                                           key === 'division' ? 'Division' :
+                                             key === 'costCenter' ? 'Cost Center' :
+                                               key === 'welfarePensionNo' ? 'Emp Welfare Pension Number' :
+                                                 key}
                 </label>
                 <input
                   type="text"
@@ -686,26 +686,26 @@ function App() {
                         return (
                           <div key={key} className="field-group">
                             <label>
-                              {key === 'monthYear' ? 'Month & Year' :
-                                key === 'empId' ? 'EMPLOYEE ID' :
-                                  key === 'employeeName' ? 'EMPLOYEE NAME' :
-                                    key === 'grade' ? 'GRADE' :
-                                      key === 'bankAccNo' ? 'BANK A/C NO' :
-                                        key === 'pf' ? 'PF DEDUCTION' :
-                                          key === 'pt' ? 'PRO TAX (PT)' :
-                                            key === 'wwf' ? 'WWF DEDUCTION' :
-                                              key === 'netSalary' ? 'TARGET NET SALARY' :
-                                                key === 'basic' ? 'BASIC PAY' :
-                                                  key === 'conveyance' ? 'CONVEYANCE' :
-                                                    key === 'lta' ? 'LTA MONTHLY' :
-                                                      key === 'hra' ? 'HOUSE RENT ALLOWANCE' :
-                                                        key === 'addlHra' ? 'ADDITIONAL HRA' :
-                                                          key === 'medical' ? 'MEDICAL ALLOWANCE' :
-                                                            key === 'transport' ? 'TRANSPORT ALLOW' :
-                                                              key === 'superannuation' ? 'SUPERANNUATION' :
-                                                                key === 'lunch' ? 'LUNCH ALLOWANCE' :
-                                                                  key === 'inWords' ? 'IN WORDS' :
-                                                                    key}
+                                {key === 'monthYear' ? 'Month & Year' :
+                                 key === 'empId' ? 'Employee ID' :
+                                   key === 'employeeName' ? 'Employee Name' :
+                                     key === 'grade' ? 'Grade' :
+                                       key === 'bankAccNo' ? 'Bank A/c No' :
+                                         key === 'pf' ? 'PF Deduction' :
+                                           key === 'pt' ? 'Pro Tax (PT)' :
+                                             key === 'wwf' ? 'WWF Deduction' :
+                                               key === 'netSalary' ? 'Target Net Salary' :
+                                                 key === 'basic' ? 'Basic Pay' :
+                                                   key === 'conveyance' ? 'Conveyance' :
+                                                     key === 'lta' ? 'LTA Monthly' :
+                                                       key === 'hra' ? 'House Rent Allowance' :
+                                                         key === 'addlHra' ? 'Additional HRA' :
+                                                           key === 'medical' ? 'Medical Allowance' :
+                                                             key === 'transport' ? 'Transport Allow' :
+                                                               key === 'superannuation' ? 'Superannuation' :
+                                                                 key === 'lunch' ? 'Lunch Allowance' :
+                                                                   key === 'inWords' ? 'In Words' :
+                                                                     key}
                             </label>
                             {key === 'monthYear' ? (
                               <select
