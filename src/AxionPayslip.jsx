@@ -211,8 +211,8 @@ const AxionPayslip = ({ data }) => {
             <td className="text-right">{formatDisplay(data?.totalDeductions)}</td>
           </tr>
           <tr className="axion-total-row">
-            <td>Total Income</td>
-            <td className="text-right">{formatDisplay(data?.totalIncome)}</td>
+            <td className="axion-highlight-cell">Total Income</td>
+            <td className="text-right axion-highlight-cell">{formatDisplay(data?.totalIncome)}</td>
             <td className="axion-net-cell">Net Income</td>
             <td className="text-right axion-net-cell">{formatDisplay(data?.netSalary)}</td>
           </tr>
