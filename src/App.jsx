@@ -157,7 +157,7 @@ function App() {
 
   const [monthlySlips, setMonthlySlips] = useState([
     {
-      id: Date.now(),
+      id: 1,
       monthYear: 'September, 2025',
       basic: '41918',
       hra: '9146',
@@ -638,7 +638,7 @@ function App() {
               <button className="add-btn" onClick={addNewMonth}>+ Add Month</button>
             </div>
 
-            {monthlySlips.map((slip, index) => (
+            {monthlySlips.map((slip) => (
               <div key={slip.id} className="month-card">
                 <div
                   className="month-card-header"
