@@ -53,16 +53,16 @@ const Payslip = ({ data }) => {
       <table className="payslip-details-table">
         <tbody>
           <tr>
-            <td className="detail-data">{data?.empName}</td>
+            <td className="detail-data">{data?.employeeName}</td>
             <td className="detail-data">EMP. NO. : {data?.empCode || data?.empId}</td>
           </tr>
           <tr>
             <td className="detail-data">DATE OF JOINING : {data?.doj}</td>
-            <td className="detail-data">Current Mth Cal Days : {data?.workedDays || '31.00'}</td>
+            <td className="detail-data">Current Mth Cal Days : {data?.calDays || '31.00'}</td>
           </tr>
           <tr>
             <td className="detail-data">DESIGNATION : {data?.designation}</td>
-            <td className="detail-data">Current Mth Paid Days : {data?.workedDays || '31.00'}</td>
+            <td className="detail-data">Current Mth Paid Days : {data?.paidDays || '31.00'}</td>
           </tr>
           <tr>
             <td className="detail-data">LOC : {data?.location}</td>
