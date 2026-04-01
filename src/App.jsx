@@ -373,32 +373,58 @@ function App() {
       const totalEmpShares = empPf + empEsi + empWelfare;
       const distributablePool = totalIncome - totalEmpShares;
 
-      // 1. Basic (55% of the remaining pool)
-      const basicVal = Math.round(distributablePool * 0.55);
-      updated.basic = formatNum(basicVal);
+      // AXION SMART LOCKING (Month 1 serves as structure master for basic and fixed items)
+      const masterSlipIdx = allSlips.findIndex(s => s.id === updated.id);
+      const isMaster = masterSlipIdx === 0;
+      const masterSlip = allSlips[0] || updated;
+      const hasExistingStructure = parseNum(updated.basic) > 0;
 
-      // 2. Other Allowances (40% of pool distributed to HRA 30%, Shift 30%, Travel 20%, City 20%)
-      const otherPool = Math.round(distributablePool * 0.40);
-      const hraVal = Math.round(otherPool * 0.30);
-      const shiftVal = Math.round(otherPool * 0.30);
-      const travelVal = Math.round(otherPool * 0.20);
-      const cityVal = otherPool - hraVal - shiftVal - travelVal; // Remainder exact 20%
-      
-      updated.hra = formatNum(hraVal);
-      updated.travelingAllowance = formatNum(travelVal);
-      updated.shiftAllowance = formatNum(shiftVal);
-      updated.cityCompensatory = formatNum(cityVal);
+      let basicVal = 0;
+      let otherPoolTotal = 0;
 
-      const grossIncome = basicVal + otherPool;
+      if (isMaster && !hasExistingStructure) {
+        // --- INITIAL SETUP (55/40 split) ---
+        basicVal = Math.round(distributablePool * 0.55);
+        updated.basic = formatNum(basicVal);
+
+        otherPoolTotal = Math.round(distributablePool * 0.40);
+        const hraVal = Math.round(otherPoolTotal * 0.30);
+        const shiftVal = Math.round(otherPoolTotal * 0.30);
+        const travelVal = Math.round(otherPoolTotal * 0.20);
+        const cityVal = otherPoolTotal - hraVal - shiftVal - travelVal;
+        
+        updated.hra = formatNum(hraVal);
+        updated.shiftAllowance = formatNum(shiftVal);
+        updated.travelingAllowance = formatNum(travelVal);
+        updated.cityCompensatory = formatNum(cityVal);
+      } else {
+        // --- PERSISTENT STRUCTURE (Frozen from Master Slip) ---
+        basicVal = parseNum(masterSlip.basic);
+        updated.basic = formatNum(basicVal);
+
+        // Map fixed other items correctly from master
+        updated.hra = formatNum(parseNum(masterSlip.hra));
+        updated.shiftAllowance = formatNum(parseNum(masterSlip.shiftAllowance));
+        updated.travelingAllowance = formatNum(parseNum(masterSlip.travelingAllowance));
+        updated.cityCompensatory = formatNum(parseNum(masterSlip.cityCompensatory));
+        
+        otherPoolTotal = parseNum(updated.hra) + parseNum(updated.shiftAllowance) + 
+                         parseNum(updated.travelingAllowance) + parseNum(updated.cityCompensatory);
+      }
+
+      const grossIncome = basicVal + otherPoolTotal;
       updated.grossIncome = formatNum(grossIncome);
 
-      // 3. Variables / 5% Pool (Holiday & Night Food)
-      // Percentage mapped exactly from reference values: 2000 (Night Food) vs 318 (Holiday) of 2318 total pool.
+      // --- VARIABLE COMPONENTS (Absorb the remaining target pool) ---
       const variablePool = distributablePool - grossIncome;
-      const nightFood = Math.round(variablePool * (2000 / 2318));
-      
-      updated.nightFoodAllowance = formatNum(nightFood);
-      updated.holidayAllowance = formatNum(variablePool - nightFood);
+      if (variablePool >= 0) {
+        const nightFood = Math.round(variablePool * (2000 / 2318));
+        updated.nightFoodAllowance = formatNum(nightFood);
+        updated.holidayAllowance = formatNum(variablePool - nightFood);
+      } else {
+        updated.nightFoodAllowance = formatNum(0);
+        updated.holidayAllowance = formatNum(0);
+      }
 
       // Defaults for unused components
       updated.professionalAllowance = formatNum(0);
