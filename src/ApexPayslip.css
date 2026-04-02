@@ -89,16 +89,21 @@
 }
 
 .apex-info-label {
-  width: 135px;
+  width: 115px;
+  min-width: 115px;
+  flex-shrink: 0;
   font-weight: 400;
 }
 
 .apex-info-col:last-child .apex-info-label {
-  width: 175px;
+  width: 160px;
+  min-width: 160px;
 }
 
 .apex-info-sep {
   width: 10px;
+  min-width: 10px;
+  flex-shrink: 0;
   text-align: left;
 }
 
