@@ -58,11 +58,11 @@ const ModulusPayslip = ({ data }) => {
             </tr>
             <tr>
               <td className="detail-data">DATE OF JOINING : {data?.doj}</td>
-              <td className="detail-data">Current Mth Cal Days : {data?.calDays || '31.00'}</td>
+              <td className="detail-data">Current Mth Cal Days : {data?.calDays || '31'}</td>
             </tr>
             <tr>
               <td className="detail-data">DESIGNATION : {data?.designation}</td>
-              <td className="detail-data">Current Mth Paid Days : {data?.paidDays || '31.00'}</td>
+              <td className="detail-data">Current Mth Paid Days : {data?.paidDays || '31'}</td>
             </tr>
             <tr>
               <td className="detail-data">LOC : {data?.location}</td>
@@ -197,6 +197,9 @@ const ModulusPayslip = ({ data }) => {
           <div className="modulus-footer-line">========================================================</div>
           <div className="modulus-footer-amount">
             AMOUNT PAID BY TRANSFER TO A/C : {data?.bankAccNo || data?.bankAccount || '50100841532282'} - Rs. {formatDisplay(data?.netSalary)}
+          </div>
+          <div className="modulus-footer-amount">
+            RUPEES : {data?.inWords}
           </div>
           <div className="modulus-footer-address">
             {data?.address || '211, 4th Floor, SCK 01, Smartcity Road, Kochi, Kakkanad, Kerala 682042'}

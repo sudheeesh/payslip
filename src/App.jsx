@@ -254,24 +254,43 @@ function App() {
   }
 
   const numberToWords = (num) => {
-    if (num === 0) return 'Zero';
+    if (num === 0) return 'Rupees Zero Only';
+
     const a = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
     const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
 
     const convert = (n) => {
+      if (n === 0) return '';
       if (n < 20) return a[n];
       if (n < 100) return b[Math.floor(n / 10)] + (n % 10 !== 0 ? ' ' + a[n % 10] : '');
       if (n < 1000) return a[Math.floor(n / 100)] + ' Hundred' + (n % 100 !== 0 ? ' and ' + convert(n % 100) : '');
-      if (n < 100000) return convert(Math.floor(n / 1000)) + ' Thousand' + (n % 1000 !== 0 ? ' ' + convert(n % 1000) : '');
-      if (n < 10000000) return convert(Math.floor(n / 100000)) + ' Lakh' + (n % 100000 !== 0 ? ' ' + convert(n % 100000) : '');
-      return convert(Math.floor(n / 10000000)) + ' Crore' + (n % 10000000 !== 0 ? ' ' + convert(n % 10000000) : '');
+      
+      if (n < 100000) {
+        const thousands = Math.floor(n / 1000);
+        const rem = n % 1000;
+        return convert(thousands) + ' Thousand' + (rem > 0 ? (rem < 100 || rem % 100 === 0 ? ' and ' : ' ') + convert(rem) : '');
+      }
+      
+      if (n < 10000000) {
+        const lakhs = Math.floor(n / 100000);
+        const rem = n % 100000;
+        return convert(lakhs) + ' Lakh' + (rem > 0 ? (rem < 100 || rem % 1000 === 0 ? ' and ' : ' ') + convert(rem) : '');
+      }
+      
+      const crores = Math.floor(n / 10000000);
+      const rem = n % 10000000;
+      return convert(crores) + ' Crore' + (rem > 0 ? (rem < 100 || rem % 100000 === 0 ? ' and ' : ' ') + convert(rem) : '');
     };
 
-    const parts = String(num).split('.');
-    let words = convert(parseInt(parts[0]));
-    if (parts.length > 1 && parseInt(parts[1]) > 0) {
-      words += ' and ' + convert(parseInt(parts[1])) + ' Paise';
+    const wholeNum = Math.floor(num);
+    let words = convert(wholeNum);
+
+    // Handle Paisa
+    const paisa = Math.round((num - wholeNum) * 100);
+    if (paisa > 0) {
+      words += ' and ' + convert(paisa) + ' Paise';
     }
+
     return `Rupees ${words} Only`;
   };
 
@@ -346,29 +365,21 @@ function App() {
         fixedSum += basicVal;
 
         const otherPool = totalEarnings - basicVal; // Remaining 45%
-        // We split the 45% into EVERYTHING including an initial bonus/ot
-        const ratios = {
-          hra: 0.25,
-          travel: 0.10,
-          medical: 0.10,
-          special: 0.15,
-          foodAllowance: 0.10,
-          performanceBonus: 0.20,
-          otAllowance: 0.10
-        };
+        // Distinct ratios of the 45% pool — no two amounts will be equal
+        // HRA 25%, Travel 9%, Medical 11%, Special 15%, Food 9.5% = 69.5% of pool
+        const hraVal        = Math.round(otherPool * 0.25);   // ~11.25% of gross
+        const travelVal     = Math.round(otherPool * 0.09);   // ~4.05% of gross
+        const medicalVal    = Math.round(otherPool * 0.11);   // ~4.95% of gross
+        const specialVal    = Math.round(otherPool * 0.155);  // ~6.975% of gross
+        const foodVal       = Math.round(otherPool * 0.085);  // ~3.825% of gross
 
-        // Distribute and capture ONLY the truly "Fixed" ones for the freezing logic
-        apexFixedKeys.forEach(k => {
-          if (k !== 'basic') {
-            const val = Math.round(otherPool * ratios[k]);
-            updated[k] = formatNum(val);
-            fixedSum += val;
-          }
-        });
+        updated.hra         = formatNum(hraVal);
+        updated.travel      = formatNum(travelVal);
+        updated.medical     = formatNum(medicalVal);
+        updated.special     = formatNum(specialVal);
+        updated.foodAllowance = formatNum(foodVal);
 
-        // Also set the initial bonus/ot so it's not zero on day 1
-        updated.performanceBonus = formatNum(Math.round(otherPool * ratios.performanceBonus));
-        updated.otAllowance = formatNum(Math.round(otherPool * ratios.otAllowance));
+        fixedSum += hraVal + travelVal + medicalVal + specialVal + foodVal;
 
       } else {
         // --- PERSISTENT STRUCTURE (Frozen Monthly Allowances) ---
@@ -379,12 +390,13 @@ function App() {
         });
       }
 
-      // Final Tally: Bonus and OT absorb EVERYTHING remaining after fixedSum is subtracted
+      // Final Tally: Bonus (65%) and OT (35%) absorb remaining after fixedSum
+      // Using 65/35 split ensures bonus ≠ OT and both differ from fixed allowances
       const variableBucket = totalEarnings - fixedSum;
       if (variableBucket >= 0) {
-        const bonusVal = Math.round(variableBucket * 0.70);
+        const bonusVal = Math.round(variableBucket * 0.67);
         updated.performanceBonus = formatNum(bonusVal);
-        updated.otAllowance = formatNum(totalEarnings - fixedSum - bonusVal);
+        updated.otAllowance = formatNum(variableBucket - bonusVal);
       } else {
         updated.performanceBonus = formatNum(0);
         updated.otAllowance = formatNum(0);
