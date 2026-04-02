@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Payslip from './Payslip';
+import ModulusPayslip from './ModulusPayslip';
 import ApexPayslip from './ApexPayslip';
 import AxionPayslip from './AxionPayslip';
 import './App.css';
@@ -412,7 +412,7 @@ function App() {
       updated.pfEmployerShare = formatNum(empPf);
       updated.esiEmployerShare = formatNum(empEsi);
       updated.employerWelfareFund = formatNum(empWelfare);
-      
+
       const totalEmpShares = empPf + empEsi + empWelfare;
       const distributablePool = totalIncome - totalEmpShares;
 
@@ -435,7 +435,7 @@ function App() {
         updated.basic = formatNum(basicVal);
 
         const allowancePool = distributablePool - basicVal;
-        
+
         // Fix the other pieces based on requested targets (12, 10, 8, 5)
         hraVal = Math.round(distributablePool * 0.12);
         travelVal = Math.round(distributablePool * 0.10);
@@ -516,9 +516,9 @@ function App() {
         // Find a DIFFERENT slip for the same person that already has a Modulus structure
         const masterSlip = allSlips.find(
           s => (s.empId === updated.empId || s.employeeName === updated.employeeName)
-               && parseNum(s.basic) > 0
-               && parseNum(s.conveyance) > 0
-               && s.id !== updated.id
+            && parseNum(s.basic) > 0
+            && parseNum(s.conveyance) > 0
+            && s.id !== updated.id
         );
 
         let fixedSum = 0;
@@ -530,24 +530,24 @@ function App() {
           const basicVal = Math.round(targetEarnings * 0.55);
           updated.basic = formatNum(basicVal);
 
-          const hraVal      = Math.round(targetEarnings * 0.08);
-          const convVal     = Math.round(targetEarnings * 0.07);
-          const ltaVal      = Math.round(targetEarnings * 0.06);
-          const addlHraVal  = Math.round(targetEarnings * 0.06);
-          const medicalVal  = Math.round(targetEarnings * 0.05);
-          const transportVal= Math.round(targetEarnings * 0.05);
-          const superVal    = Math.round(targetEarnings * 0.04);
+          const hraVal = Math.round(targetEarnings * 0.08);
+          const convVal = Math.round(targetEarnings * 0.03);
+          const ltaVal = Math.round(targetEarnings * 0.07);
+          const addlHraVal = Math.round(targetEarnings * 0.06);
+          const medicalVal = Math.round(targetEarnings * 0.09);
+          const transportVal = Math.round(targetEarnings * 0.05);
+          const superVal = Math.round(targetEarnings * 0.04);
           // Lunch absorbs the rounding remainder so total always matches exactly
-          const lunchVal    = targetEarnings - basicVal - hraVal - convVal - ltaVal - addlHraVal - medicalVal - transportVal - superVal;
+          const lunchVal = targetEarnings - basicVal - hraVal - convVal - ltaVal - addlHraVal - medicalVal - transportVal - superVal;
 
-          updated.hra           = formatNum(hraVal);
-          updated.conveyance    = formatNum(convVal);
-          updated.lta           = formatNum(ltaVal);
-          updated.addlHra       = formatNum(addlHraVal);
-          updated.medical       = formatNum(medicalVal);
-          updated.transport     = formatNum(transportVal);
-          updated.superannuation= formatNum(superVal);
-          updated.lunch         = formatNum(lunchVal);
+          updated.hra = formatNum(hraVal);
+          updated.conveyance = formatNum(convVal);
+          updated.lta = formatNum(ltaVal);
+          updated.addlHra = formatNum(addlHraVal);
+          updated.medical = formatNum(medicalVal);
+          updated.transport = formatNum(transportVal);
+          updated.superannuation = formatNum(superVal);
+          updated.lunch = formatNum(lunchVal);
 
         } else {
           // --- SAME PERSON, MONTH 2+: Freeze basic + 7 allowances, only Conveyance changes ---
@@ -697,19 +697,19 @@ function App() {
                   {key === 'employeeName' ? 'Employee Name' :
                     key === 'empId' ? 'Employee ID' :
                       key === 'pan' ? 'PAN Number' :
-                         key === 'uan' ? 'UAN No' :
-                           key === 'esi' ? 'ESI Account No' :
-                             key === 'pfNo' ? 'PF No' :
-                               key === 'deptCode' ? 'Department Code' :
-                                 key === 'doj' ? 'Date of Joining' :
-                                   key === 'bankAccNo' ? 'Bank Account No' :
-                                     key === 'ifscCode' ? 'IFSC Code' :
-                                       key === 'branchName' ? 'Branch' :
-                                         key === 'grade' ? 'Grade' :
-                                           key === 'division' ? 'Division' :
-                                             key === 'costCenter' ? 'Cost Center' :
-                                               key === 'welfarePensionNo' ? 'Emp Welfare Pension Number' :
-                                                 key}
+                        key === 'uan' ? 'UAN No' :
+                          key === 'esi' ? 'ESI Account No' :
+                            key === 'pfNo' ? 'PF No' :
+                              key === 'deptCode' ? 'Department Code' :
+                                key === 'doj' ? 'Date of Joining' :
+                                  key === 'bankAccNo' ? 'Bank Account No' :
+                                    key === 'ifscCode' ? 'IFSC Code' :
+                                      key === 'branchName' ? 'Branch' :
+                                        key === 'grade' ? 'Grade' :
+                                          key === 'division' ? 'Division' :
+                                            key === 'costCenter' ? 'Cost Center' :
+                                              key === 'welfarePensionNo' ? 'Emp Welfare Pension Number' :
+                                                key}
                 </label>
                 <input
                   type="text"
@@ -772,26 +772,26 @@ function App() {
                         return (
                           <div key={key} className="field-group">
                             <label>
-                                {key === 'monthYear' ? 'Month & Year' :
-                                 key === 'empId' ? 'Employee ID' :
-                                   key === 'employeeName' ? 'Employee Name' :
-                                     key === 'grade' ? 'Grade' :
-                                       key === 'bankAccNo' ? 'Bank A/c No' :
-                                         key === 'pf' ? 'PF Deduction' :
-                                           key === 'pt' ? 'Pro Tax (PT)' :
-                                             key === 'wwf' ? 'WWF Deduction' :
-                                               key === 'netSalary' ? 'Target Net Salary' :
-                                                 key === 'basic' ? 'Basic Pay' :
-                                                   key === 'conveyance' ? 'Conveyance' :
-                                                     key === 'lta' ? 'LTA Monthly' :
-                                                       key === 'hra' ? 'House Rent Allowance' :
-                                                         key === 'addlHra' ? 'Additional HRA' :
-                                                           key === 'medical' ? 'Medical Allowance' :
-                                                             key === 'transport' ? 'Transport Allow' :
-                                                               key === 'superannuation' ? 'Superannuation' :
-                                                                 key === 'lunch' ? 'Lunch Allowance' :
-                                                                   key === 'inWords' ? 'In Words' :
-                                                                     key}
+                              {key === 'monthYear' ? 'Month & Year' :
+                                key === 'empId' ? 'Employee ID' :
+                                  key === 'employeeName' ? 'Employee Name' :
+                                    key === 'grade' ? 'Grade' :
+                                      key === 'bankAccNo' ? 'Bank A/c No' :
+                                        key === 'pf' ? 'PF Deduction' :
+                                          key === 'pt' ? 'Pro Tax (PT)' :
+                                            key === 'wwf' ? 'WWF Deduction' :
+                                              key === 'netSalary' ? 'Target Net Salary' :
+                                                key === 'basic' ? 'Basic Pay' :
+                                                  key === 'conveyance' ? 'Conveyance' :
+                                                    key === 'lta' ? 'LTA Monthly' :
+                                                      key === 'hra' ? 'House Rent Allowance' :
+                                                        key === 'addlHra' ? 'Additional HRA' :
+                                                          key === 'medical' ? 'Medical Allowance' :
+                                                            key === 'transport' ? 'Transport Allow' :
+                                                              key === 'superannuation' ? 'Superannuation' :
+                                                                key === 'lunch' ? 'Lunch Allowance' :
+                                                                  key === 'inWords' ? 'In Words' :
+                                                                    key}
                             </label>
                             {key === 'monthYear' ? (
                               <select
@@ -840,7 +840,7 @@ function App() {
               } else if (fmt === 'axion' || name.includes('AXION') || name.includes('AXIOM')) {
                 return <AxionPayslip data={{ ...commonDetails, ...slip }} />;
               } else {
-                return <Payslip data={{ ...commonDetails, ...slip }} />;
+                return <ModulusPayslip data={{ ...commonDetails, ...slip }} />;
               }
             })()}
           </div>

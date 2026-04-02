@@ -1,27 +1,30 @@
-.payslip-container {
+/* =============================================
+   MODULUS PAYSLIP STYLES
+   Scoped with .modulus- prefix to avoid conflicts
+   with Apex and Axion formats
+   ============================================= */
+
+.modulus-container {
   font-family: 'Segoe UI', Tahoma, Arial, Helvetica, sans-serif;
   max-width: 950px;
   width: 100%;
-  /* Spans full wrapper width */
   margin: 0;
-  /* Removing the extra margin that caused the ghosting */
   padding: 0;
-  /* Letting the wrapper handle spacing or keeping minimal */
   background-color: transparent;
-  /* Wrapper handles the white background */
   color: #0d325a;
   font-size: 11px;
 }
 
-.payslip-container * {
+.modulus-container * {
   box-sizing: border-box;
 }
 
-.payslip-border-wrapper {
+.modulus-border-wrapper {
   border: 1px solid #ccc;
 }
 
-.payslip-header {
+/* --- Header --- */
+.modulus-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -29,17 +32,16 @@
   border-bottom: 1px solid #ccc;
 }
 
-.payslip-logo-area {
+.modulus-logo-area {
   display: flex;
   align-items: center;
   background-color: #d8dbdf;
-  /* Matched lighter grey from model */
   padding: 10px 15px;
   width: 40%;
   min-height: 65px;
 }
 
-.uploaded-logo {
+.modulus-uploaded-logo {
   width: auto;
   max-width: 240px;
   max-height: 48px;
@@ -47,41 +49,41 @@
   object-position: left center;
 }
 
-.enlarge-area {
+.modulus-enlarge-area {
   min-height: 65px !important;
-  padding: 0px 15px !important; /* Less padding to allow fill */
-  overflow: hidden !important; /* Ensures the scaled-up margins don't break layout */
+  padding: 0px 15px !important;
+  overflow: hidden !important;
 }
 
-.enlarged-logo {
+.modulus-enlarged-logo {
   transform: scale(3.2) !important;
   transform-origin: left center !important;
   max-height: 48px !important;
   width: auto !important;
 }
 
-.logo-placeholder {
+.modulus-logo-placeholder {
   display: flex;
   align-items: center;
 }
 
-.logo-text {
+.modulus-logo-text {
   font-size: 24px;
   font-weight: 900;
   color: #0d325a;
   margin-left: 10px;
 }
 
-.payslip-company-name {
+.modulus-company-name {
   font-size: 16px;
   font-weight: 400;
-  /* Extra bold thick look */
   color: #0d325a;
   margin-right: 15px;
   margin-bottom: 5px;
 }
 
-.payslip-title {
+/* --- Title --- */
+.modulus-title {
   text-align: center;
   font-weight: bold;
   font-size: 13px;
@@ -91,35 +93,35 @@
   color: #0d325a;
 }
 
-.payslip-details-table {
+/* --- Employee Details Table --- */
+.modulus-details-table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 0;
   table-layout: fixed;
 }
 
-.payslip-details-table td {
+.modulus-details-table td {
   border: 1px solid #ccc;
   padding: 5px 10px;
   font-weight: bold;
   color: #0d325a;
   font-size: 11px;
   white-space: nowrap;
-  /* Prevent wrapping for everything inside this grid */
 }
 
-.payslip-details-table td:first-child {
+.modulus-details-table td:first-child {
   border-left: none;
   width: 60%;
-  /* More room for long titles */
 }
 
-.payslip-details-table td:last-child {
+.modulus-details-table td:last-child {
   border-right: none;
   width: 40%;
 }
 
-.payslip-table {
+/* --- Main Earnings/Deductions Table --- */
+.modulus-table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 0px;
@@ -127,72 +129,62 @@
   table-layout: fixed;
 }
 
-.payslip-table th,
-.payslip-table td {
+.modulus-table th,
+.modulus-table td {
   padding: 4px;
   border: 1px solid #e5e5e5;
   color: #0d325a;
   font-weight: normal;
-  /* Normal for Basic to WWF */
 }
 
-.payslip-table th:nth-child(1),
-.payslip-table td:nth-child(1) {
+.modulus-table th:nth-child(1),
+.modulus-table td:nth-child(1) {
   border-left: none;
   width: 55%;
 }
 
-.payslip-table th:nth-child(2),
-.payslip-table td:nth-child(2) {
+.modulus-table th:nth-child(2),
+.modulus-table td:nth-child(2) {
   width: 15%;
 }
 
-.payslip-table th:nth-child(3),
-.payslip-table td:nth-child(3) {
+.modulus-table th:nth-child(3),
+.modulus-table td:nth-child(3) {
   width: 15%;
 }
 
-.payslip-table th:nth-child(4),
-.payslip-table td:nth-child(4) {
+.modulus-table th:nth-child(4),
+.modulus-table td:nth-child(4) {
   width: 15%;
 }
 
-.payslip-table th:last-child,
-.payslip-table td:last-child {
+.modulus-table th:last-child,
+.modulus-table td:last-child {
   border-right: none;
 }
 
-.table-header-row th {
+.modulus-header-row th {
   background-color: #f2f2f2;
   font-weight: bold;
   padding: 6px 4px;
 }
 
-.payslip-table td.section-title {
+.modulus-table td.modulus-section-title {
   font-weight: 900;
-  /* Extra thick as requested */
   color: #0d325a;
   background-color: #fff;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
 }
 
-.text-right {
-  text-align: right;
-}
-
-.text-left {
-  text-align: left;
-}
-
-.payslip-table td.bold-blue {
+.modulus-bold-blue {
   font-weight: 900;
-  /* Extra thick for Total Earnings/Deductions */
   color: #0d325a;
   background-color: #f2f2f2;
 }
 
-.payslip-summary-table {
+/* --- Summary Table --- */
+.modulus-summary-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
@@ -202,7 +194,7 @@
   table-layout: fixed;
 }
 
-.payslip-summary-table th {
+.modulus-summary-table th {
   padding: 5px;
   font-weight: 900;
   border: 1px solid #e5e5e5;
@@ -210,38 +202,42 @@
   background-color: #f2f2f2;
 }
 
-.payslip-summary-table td {
+.modulus-summary-table td {
   padding: 5px;
   border: 1px solid #e5e5e5;
   font-weight: 900;
   color: #0d325a;
 }
 
-
-.payslip-footer {
+/* --- Footer --- */
+.modulus-footer {
   margin-top: 10px;
   line-height: 1.5;
   font-size: 11px;
 }
 
-.footer-line {
+.modulus-footer-line {
   color: #0d325a;
   letter-spacing: 2px;
   overflow: hidden;
   white-space: nowrap;
 }
 
-.footer-amount {
+.modulus-footer-amount {
   font-weight: bold;
   color: #0d325a;
 }
 
-.footer-address {
+.modulus-footer-address {
   color: #0d325a;
   font-weight: bold;
 }
 
-.footer-disclaimer {
+.modulus-footer-disclaimer {
   color: #0d325a;
   font-weight: bold;
 }
+
+/* --- Shared utilities --- */
+.text-right { text-align: right; }
+.text-left  { text-align: left; }
