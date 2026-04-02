@@ -4,6 +4,7 @@ import './ModulusPayslip.css';
 const ModulusPayslip = ({ data }) => {
   const formatDisplay = (val) => {
     if (val === undefined || val === null || val === '') return '0.00';
+    // Remove existing commas and parse
     const num = parseFloat(String(val).replace(/,/g, '')) || 0;
     return num.toLocaleString('en-IN', {
       minimumFractionDigits: 2,
@@ -11,58 +12,47 @@ const ModulusPayslip = ({ data }) => {
     });
   };
 
-  const companyName = data?.companyName?.toUpperCase() || '';
-  const isLargeLogo =
-    companyName.includes('PROMANAGE') ||
-    companyName.includes('ELITE MANAGEMENT') ||
-    companyName.includes('GENESIS') ||
-    companyName.includes('PROMOTIX');
+  const logoPath = data?.companyLogo || "https://res.cloudinary.com/dpu9ikeqe/image/upload/v1774935581/MODULUS_1_esqcq1.png";
 
   return (
-    <div className="modulus-container">
-      <div className="modulus-border-wrapper">
-
-        {/* Header */}
-        <div className="modulus-header">
-          <div className={`modulus-logo-area ${isLargeLogo ? 'modulus-enlarge-area' : ''}`}>
-            {data?.companyLogo ? (
-              <img
-                src={data.companyLogo}
-                alt="Company Logo"
-                className={`modulus-uploaded-logo ${isLargeLogo ? 'modulus-enlarged-logo' : ''}`}
-              />
-            ) : (
-              <div className="modulus-logo-placeholder">
-                <svg viewBox="0 0 100 100" width="50" height="50">
-                  <polygon points="50,10 90,30 90,70 50,90 10,70 10,30" fill="none" stroke="#0d325a" strokeWidth="8" />
-                  <polygon points="50,25 75,38 75,62 50,75 25,62 25,38" fill="#0d325a" />
-                </svg>
-                <span className="modulus-logo-text">MODULUS</span>
-              </div>
-            )}
+    <div className="payslip-container">
+      <div className="payslip-border-wrapper">
+        <div className="payslip-header">
+          <div className={`payslip-logo-area ${(data?.companyName?.toUpperCase().includes('PROMANAGE') ||
+            data?.companyName?.toUpperCase().includes('ELITE MANAGEMENT') ||
+            data?.companyName?.toUpperCase().includes('GENESIS') ||
+            data?.companyName?.toUpperCase().includes('PROMOTIX')) ? 'enlarge-area' : ''
+            }`}>
+            <img
+              src={logoPath}
+              alt="Company Logo"
+              className={`uploaded-logo ${(data?.companyName?.toUpperCase().includes('PROMANAGE') ||
+                data?.companyName?.toUpperCase().includes('ELITE MANAGEMENT') ||
+                data?.companyName?.toUpperCase().includes('GENESIS') ||
+                data?.companyName?.toUpperCase().includes('PROMOTIX')) ? 'enlarged-logo' : ''
+                }`}
+            />
           </div>
-          <div className="modulus-company-name">{data?.companyName || 'MODULUSTEC PVT LTD'}</div>
+          <div className="payslip-company-name">{data?.companyName || 'MODULUSTEC PVT LTD'}</div>
         </div>
 
-        {/* Title */}
-        <div className="modulus-title">
+        <div className="payslip-title">
           Payslip of the month {data?.monthYear || 'February 2026'}
         </div>
 
-        {/* Employee Details */}
-        <table className="modulus-details-table">
+        <table className="payslip-details-table">
           <tbody>
             <tr>
-              <td className="detail-data">{data?.employeeName}</td>
+              <td className="detail-data">{data?.empName}</td>
               <td className="detail-data">EMP. NO. : {data?.empCode || data?.empId}</td>
             </tr>
             <tr>
               <td className="detail-data">DATE OF JOINING : {data?.doj}</td>
-              <td className="detail-data">Current Mth Cal Days : {data?.calDays || '31'}</td>
+              <td className="detail-data">Current Mth Cal Days : {data?.workedDays || '31.00'}</td>
             </tr>
             <tr>
               <td className="detail-data">DESIGNATION : {data?.designation}</td>
-              <td className="detail-data">Current Mth Paid Days : {data?.paidDays || '31'}</td>
+              <td className="detail-data">Current Mth Paid Days : {data?.workedDays || '31.00'}</td>
             </tr>
             <tr>
               <td className="detail-data">LOC : {data?.location}</td>
@@ -71,10 +61,9 @@ const ModulusPayslip = ({ data }) => {
           </tbody>
         </table>
 
-        {/* Earnings & Deductions Table */}
-        <table className="modulus-table">
+        <table className="payslip-table">
           <thead>
-            <tr className="modulus-header-row">
+            <tr className="table-header-row">
               <th className="text-left"></th>
               <th className="text-right">AMOUNT</th>
               <th className="text-right">ARREARS / ADJ</th>
@@ -83,7 +72,7 @@ const ModulusPayslip = ({ data }) => {
           </thead>
           <tbody>
             <tr>
-              <td colSpan="4" className="modulus-section-title">EARNINGS</td>
+              <td colSpan="4" className="section-title">EARNINGS</td>
             </tr>
             <tr>
               <td>BASIC</td>
@@ -139,15 +128,15 @@ const ModulusPayslip = ({ data }) => {
               <td className="text-right"></td>
               <td className="text-right">{formatDisplay(data?.lunch)}</td>
             </tr>
-            <tr className="modulus-total-row">
-              <td className="modulus-bold-blue">TOTAL EARNINGS</td>
-              <td className="text-right modulus-bold-blue">{formatDisplay(data?.totalEarnings)}</td>
-              <td className="text-right modulus-bold-blue">{formatDisplay(0)}</td>
-              <td className="text-right modulus-bold-blue">{formatDisplay(data?.totalEarnings)}</td>
+            <tr className="total-row">
+              <td className="bold-blue">TOTAL EARNINGS</td>
+              <td className="text-right bold-blue">{formatDisplay(data?.totalEarnings)}</td>
+              <td className="text-right bold-blue">{formatDisplay(0)}</td>
+              <td className="text-right bold-blue">{formatDisplay(data?.totalEarnings)}</td>
             </tr>
 
             <tr>
-              <td colSpan="4" className="modulus-section-title">DEDUCTIONS</td>
+              <td colSpan="4" className="section-title">DEDUCTIONS</td>
             </tr>
             <tr>
               <td>PROVIDENT FUND</td>
@@ -161,17 +150,16 @@ const ModulusPayslip = ({ data }) => {
               <td className="text-right"></td>
               <td className="text-right">{formatDisplay(data?.wwf)}</td>
             </tr>
-            <tr className="modulus-total-row">
-              <td className="modulus-bold-blue">TOTAL DEDUCTIONS</td>
-              <td className="text-right modulus-bold-blue">{formatDisplay(data?.totalDeductions)}</td>
-              <td className="text-right modulus-bold-blue">{formatDisplay(0)}</td>
-              <td className="text-right modulus-bold-blue">{formatDisplay(data?.totalDeductions)}</td>
+            <tr className="total-row">
+              <td className="bold-blue">TOTAL DEDUCTIONS</td>
+              <td className="text-right bold-blue">{formatDisplay(data?.totalDeductions)}</td>
+              <td className="text-right bold-blue">{formatDisplay(0)}</td>
+              <td className="text-right bold-blue">{formatDisplay(data?.totalDeductions)}</td>
             </tr>
           </tbody>
         </table>
 
-        {/* Summary Footer Table */}
-        <table className="modulus-summary-table">
+        <table className="payslip-summary-table">
           <thead>
             <tr>
               <th className="text-right">TOTAL EARNING</th>
@@ -192,23 +180,16 @@ const ModulusPayslip = ({ data }) => {
           </tbody>
         </table>
 
-        {/* Footer */}
-        <div className="modulus-footer">
-          <div className="modulus-footer-line">========================================================</div>
-          <div className="modulus-footer-amount">
-            AMOUNT PAID BY TRANSFER TO A/C : {data?.bankAccNo || data?.bankAccount || '50100841532282'} - Rs. {formatDisplay(data?.netSalary)}
-          </div>
-          <div className="modulus-footer-amount">
-            RUPEES : {data?.inWords}
-          </div>
-          <div className="modulus-footer-address">
+        <div className="payslip-footer">
+          <div className="footer-line">========================================================</div>
+          <div className="footer-amount">AMOUNT PAID BY TRANSFER TO A/C : {data?.bankAccount || '50100841532282'} - Rs. {formatDisplay(data?.netSalary)}</div>
+          <div className="footer-address">
             {data?.address || '211, 4th Floor, SCK 01, Smartcity Road, Kochi, Kakkanad, Kerala 682042'}
           </div>
-          <div className="modulus-footer-disclaimer">
+          <div className="footer-disclaimer">
             *This is a computer generated payslip, does not require any signature*
           </div>
         </div>
-
       </div>
     </div>
   );

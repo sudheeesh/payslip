@@ -9,7 +9,7 @@ const COMPANY_DATA = {
     format: 'default',
     logo: 'https://res.cloudinary.com/dpu9ikeqe/image/upload/v1774935581/MODULUS_1_esqcq1.png',
     addresses: {
-      'CHENNAI': '4th floor, North block, TIDEL Park, 600113, Rajiv Gandhi Salai, Chennai, Tamil Nadu 600113',
+      'CHENNAI': 'No. 45, Anna Salai, Teynampet, Chennai, Tamil Nadu 600018',
       'KOCHI': '211, 4th floor, SCK 01, Smartcity Rd, Kochi, Kakkanad, Kerala 682042',
       'BENGALURU': 'Level 9, Canberra, UB City, 24, Vittal Mallya Rd, KG Halli, Ashok Nagar, Bengaluru, Karnataka 560001',
       'THIRUVANANTHAPURAM': 'Technopark Phase-3, Kazhakkuttom, PO, Thiruvananthapuram, Kerala 695583',
@@ -121,14 +121,7 @@ const COMPANY_DATA = {
       'Thiruvananthapuram': 'TC 15/12, Kowdiar Palace Road, Trivandrum, Kerala 695003',
     }
   },
-  'MODULUSTEC PVT LTD': {
-    format: 'default',
-    logo: '',
-    addresses: {
-      'Kochi': '211, 4th Floor, SCK 01, Smartcity Road, Kochi, Kakkanad, Kerala 682042',
-      'Chennai': 'No. 45, Anna Salai, Teynampet, Chennai, Tamil Nadu 600018',
-    }
-  },
+
   'GENESIS GREEN TECH PVT LTD': {
     format: 'default',
     logo: 'https://res.cloudinary.com/dpu9ikeqe/image/upload/v1774951031/logo_no_bg_svpbqt.png',
