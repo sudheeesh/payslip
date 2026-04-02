@@ -484,8 +484,15 @@ function App() {
 
     } else {
       // --- MODULUSTEC CALCULATION (Strictly Independent) ---
-      const pf = parseNum(updated.pf);
-      const wwf = parseNum(updated.wwf);
+      // Default PF = 1850, WWF = 20 if not set
+      const parseOrDefault = (val, def) => (val === undefined || val === '' || val === null) ? def : parseNum(val);
+      const pf = parseOrDefault(updated.pf, 1850);
+      const wwf = parseOrDefault(updated.wwf, 20);
+
+      // Always stamp the defaults back so they appear in the payslip
+      if (updated.pf === undefined || updated.pf === '' || updated.pf === null) updated.pf = formatNum(pf);
+      if (updated.wwf === undefined || updated.wwf === '' || updated.wwf === null) updated.wwf = formatNum(wwf);
+
       const totalDeductions = pf + wwf;
       updated.totalDeductions = formatNum(totalDeductions);
       updated.grossDeductions = formatNum(totalDeductions);
@@ -496,53 +503,59 @@ function App() {
         updated.totalEarnings = formatNum(targetEarnings);
 
         // MODULUSTEC SMART LOCKING LOGIC
-        // We divide the Gross into 55% Basic and 45% Allowances.
-        // Once a person's structure is set, changing Net Salary ONLY affects Conveyance.
+        // 55% goes to Basic. 45% is split equally across ALL 8 allowances
+        // (lta, hra, addlHra, medical, transport, superannuation, lunch, conveyance).
+        // For the SAME PERSON in different months: the 7 fixed ones stay frozen,
+        // only Conveyance floats to tally the new net salary.
+        // For a NEW PERSON (or first/only slip): everything is recalculated fresh.
 
-        const keysToFreeze = ['basic', 'lta', 'hra', 'addlHra', 'medical', 'transport', 'superannuation', 'lunch'];
-        const masterSlip = allSlips.find(s => (s.empId === updated.empId || s.employeeName === updated.employeeName) && parseNum(s.basic) > 0 && s.id !== updated.id) || updated;
-        const isMaster = masterSlip.id === updated.id;
-        const hasExistingStructure = parseNum(updated.basic) > 0;
+        // 7 fixed allowances (frozen for same person across months)
+        const fixedAllowanceKeys = ['lta', 'hra', 'addlHra', 'medical', 'transport', 'superannuation', 'lunch'];
+        const keysToFreeze = ['basic', ...fixedAllowanceKeys];
+
+        // Find a DIFFERENT slip for the same person that already has a Modulus structure
+        const masterSlip = allSlips.find(
+          s => (s.empId === updated.empId || s.employeeName === updated.employeeName)
+               && parseNum(s.basic) > 0
+               && parseNum(s.conveyance) > 0
+               && s.id !== updated.id
+        );
 
         let fixedSum = 0;
 
-        if (isMaster && (fieldChanged === 'netSalary' || !hasExistingStructure)) {
-          // --- INITIAL SETUP (Perfect 55/45 split) ---
+        if (!masterSlip) {
+          // --- FRESH / NEW PERSON: 55% Basic + 45% split with different % per allowance ---
+          // Each allowance gets a different share of the gross so amounts vary (none exceed ~9k)
+          // Ratios of the TOTAL gross: HRA 8%, Conv 7%, LTA 6%, AddlHRA 6%, Medical 5%, Transport 5%, Super 4%, Lunch 4% = 45%
           const basicVal = Math.round(targetEarnings * 0.55);
           updated.basic = formatNum(basicVal);
-          fixedSum += basicVal;
 
-          const allowancePool = targetEarnings - basicVal;
-          // There are 8 allowance categories: Conveyance + the 7 fixed ones.
-          // The user wants them shared equally initially.
-          const perAllowance = Math.round(allowancePool / 8);
+          const hraVal      = Math.round(targetEarnings * 0.08);
+          const convVal     = Math.round(targetEarnings * 0.07);
+          const ltaVal      = Math.round(targetEarnings * 0.06);
+          const addlHraVal  = Math.round(targetEarnings * 0.06);
+          const medicalVal  = Math.round(targetEarnings * 0.05);
+          const transportVal= Math.round(targetEarnings * 0.05);
+          const superVal    = Math.round(targetEarnings * 0.04);
+          // Lunch absorbs the rounding remainder so total always matches exactly
+          const lunchVal    = targetEarnings - basicVal - hraVal - convVal - ltaVal - addlHraVal - medicalVal - transportVal - superVal;
 
-          keysToFreeze.forEach(key => {
-            if (key !== 'basic') {
-              updated[key] = formatNum(perAllowance);
-              fixedSum += perAllowance;
-            }
-          });
-          // Final Tally for Conveyance (handles rounding errors)
-          updated.conveyance = formatNum(targetEarnings - fixedSum);
-
-        } else if (isMaster && hasExistingStructure) {
-          // --- UPDATING NET SALARY ON EXISTING PERSON (Only Conveyance Absorbs Difference) ---
-          keysToFreeze.forEach(key => {
-            const val = parseNum(updated[key]);
-            fixedSum += val;
-          });
-          // Update Conveyance to bridge the gap to the new target
-          updated.conveyance = formatNum(targetEarnings - fixedSum);
+          updated.hra           = formatNum(hraVal);
+          updated.conveyance    = formatNum(convVal);
+          updated.lta           = formatNum(ltaVal);
+          updated.addlHra       = formatNum(addlHraVal);
+          updated.medical       = formatNum(medicalVal);
+          updated.transport     = formatNum(transportVal);
+          updated.superannuation= formatNum(superVal);
+          updated.lunch         = formatNum(lunchVal);
 
         } else {
-          // --- MONTH 2+ FOR SAME PERSON (Strictly Frozen to Master Structure) ---
+          // --- SAME PERSON, MONTH 2+: Freeze basic + 7 allowances, only Conveyance changes ---
           keysToFreeze.forEach(key => {
             const val = parseNum(masterSlip[key]);
             updated[key] = formatNum(val);
             fixedSum += val;
           });
-          // Only Conveyance moves to tally the new net salary
           updated.conveyance = formatNum(targetEarnings - fixedSum);
         }
 
