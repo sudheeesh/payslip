@@ -14,6 +14,18 @@ const ModulusPayslip = ({ data }) => {
 
   const logoPath = data?.companyLogo || "https://res.cloudinary.com/dpu9ikeqe/image/upload/v1774935581/MODULUS_1_esqcq1.png";
 
+  let calendarDays = data?.calDays;
+  if (!calendarDays && data?.monthYear) {
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const [mName, yearStr] = data.monthYear.split(' ');
+    const mIndex = monthNames.indexOf(mName);
+    if (mIndex !== -1 && yearStr) {
+      calendarDays = new Date(parseInt(yearStr), mIndex + 1, 0).getDate();
+    }
+  }
+  const displayCalDays = parseFloat(calendarDays || 31).toFixed(2);
+  const displayPaidDays = parseFloat(data?.paidDays || 31).toFixed(2);
+
   return (
     <div className="payslip-container">
       <div className="payslip-border-wrapper">
@@ -43,16 +55,16 @@ const ModulusPayslip = ({ data }) => {
         <table className="payslip-details-table">
           <tbody>
             <tr>
-              <td className="detail-data">{data?.empName}</td>
+              <td className="detail-data">NAME : {data?.employeeName || data?.empName}</td>
               <td className="detail-data">EMP. NO. : {data?.empCode || data?.empId}</td>
             </tr>
             <tr>
               <td className="detail-data">DATE OF JOINING : {data?.doj}</td>
-              <td className="detail-data">Current Mth Cal Days : {data?.workedDays || '31.00'}</td>
+              <td className="detail-data">Current Mth Cal Days : {displayCalDays}</td>
             </tr>
             <tr>
               <td className="detail-data">DESIGNATION : {data?.designation}</td>
-              <td className="detail-data">Current Mth Paid Days : {data?.workedDays || '31.00'}</td>
+              <td className="detail-data">Current Mth Paid Days : {displayPaidDays}</td>
             </tr>
             <tr>
               <td className="detail-data">LOC : {data?.location}</td>
