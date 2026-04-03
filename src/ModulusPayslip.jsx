@@ -194,7 +194,7 @@ const ModulusPayslip = ({ data }) => {
 
         <div className="payslip-footer">
           <div className="footer-line">========================================================</div>
-          <div className="footer-amount">AMOUNT PAID BY TRANSFER TO A/C : {data?.bankAccount || '50100841532282'} - Rs. {formatDisplay(data?.netSalary)}</div>
+          <div className="footer-amount">AMOUNT PAID BY TRANSFER TO A/C : {data?.bankAccNo || '50100841532282'} - Rs. {formatDisplay(data?.netSalary)}</div>
           <div className="footer-address">
             {data?.address || '211, 4th Floor, SCK 01, Smartcity Road, Kochi, Kakkanad, Kerala 682042'}
           </div>
