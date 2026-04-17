@@ -13,6 +13,8 @@ const COMPANY_DATA = {
       'KOCHI': '211, 4th floor, SCK 01, Smartcity Rd, Kochi, Kakkanad, Kerala 682042',
       'BENGALURU': 'Level 9, Canberra, UB City, 24, Vittal Mallya Rd, KG Halli, Ashok Nagar, Bengaluru, Karnataka 560001',
       'THIRUVANANTHAPURAM': 'Technopark Phase-3, Kazhakkuttom, PO, Thiruvananthapuram, Kerala 695583',
+      'Gujarat': '5th Floor, Sai Darshan Towers, S.G. Highway, Ahmedabad, Gujarat 380015',
+      'Mumbai': 'Unit 201, Sunshine Building, Senapati Bapat Marg, Lower Parel, Mumbai, Maharashtra 400013',
     }
   },
   'PROMOTIX PVT LTD': {
@@ -42,6 +44,8 @@ const COMPANY_DATA = {
       'BENGALURU': 'Brigade Opus, 4th floor, Kodigehalli, off NH-44, Near Hebbal, Bangalore - 560092',
       'KOCHI': '34/1128A, First Floor, Balakrishna Menon Road, Edappally, Cochin - 682024',
       'THIRUVANANTHAPURAM': 'SwiftLine Logistics, 2nd Floor, Technopark Campus, Phase 1, Kazhakkoottam, Trivandrum, Kerala 695581',
+      'Mumbai': 'Harbour Edge Towers, 7th Floor, N. C. Kelkar Marg, Dadar West, Mumbai, Maharashtra 400028',
+      'Gujarat': 'Sunrise Corporate Towers, 5th Floor, Near Dumas Road, Surat, Gujarat 382355',
     }
   },
   'APEX ASSET PARTNERS PVT LTD': {
@@ -137,6 +141,8 @@ const COMPANY_DATA = {
     addresses: {
       'Chennai': 'Raheja Tower, No. 45, Anna Salai, Teynampet, Chennai, Tamil Nadu 600018',
       'Thiruvananthapuram': 'HV5M+54X, Technopark Campus, Kazhakkoottam, Trivandrum 695581',
+      'Gujarat': 'Narmada Tech Hub, Behind Visnagar Bank, Ahmedabad, Gujarat 380015',
+      'Mumbai': 'Bandra Kurla Complex, Bandra (East), Mumbai 400051',
     }
   },
   'AXION IT PVT LTD': {
@@ -144,6 +150,8 @@ const COMPANY_DATA = {
     logo: 'https://res.cloudinary.com/dpu9ikeqe/image/upload/v1774935592/AXION_LOGO_1_jaefgu.png',
     addresses: {
       'Thiruvananthapuram': 'Park Centre, Technopark Campus, Kazhakkoottam, Trivandrum, Kerala 695581',
+      'Gujarat': 'Aashirwad Complex, 2nd Floor, Ahmedabad, Gujarat 382355',
+      'Mumbai': 'Ganpatrao Kadam Marg, Lower Parel, Mumbai, Maharashtra 400013',
     }
   },
   'COGNIMARK PVT LTD': {
@@ -677,6 +685,8 @@ function App() {
                     <option value="Kochi">Kochi</option>
                     <option value="Thiruvananthapuram">Thiruvananthapuram</option>
                     <option value="Bangalore">Bangalore</option>
+                    <option value="Gujarat">Gujarat</option>
+                    <option value="Mumbai">Mumbai</option>
                   </select>
                 </div>
               );
